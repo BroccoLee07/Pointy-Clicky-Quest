@@ -9,7 +9,6 @@ public class Mover : MonoBehaviour {
         if (Input.GetMouseButtonDown(0)) {
             MoveToCursor();            
         }
-        
     }
 
     private void MoveToCursor() {
