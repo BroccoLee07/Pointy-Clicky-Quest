@@ -10,11 +10,13 @@ namespace RPG.Combat {
         // Dependency
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
+        private Animator animator;
 
         private Transform combatTargetTransform;
         public void Initialize() {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
+            animator = GetComponent<Animator>();
         }
 
         void Update() {
@@ -25,8 +27,15 @@ namespace RPG.Combat {
                 characterMovement.MoveTo(combatTargetTransform.transform.position);
             } else {
                 characterMovement.Cancel();
-                Cancel();
+
+                AttackBehaviour();
             }
+        }
+
+        private void AttackBehaviour() {
+            animator.SetTrigger("attack");
+
+            // TODO: Apply damage here
         }
 
         private bool IsInAttackRange() {
@@ -48,6 +57,11 @@ namespace RPG.Combat {
 
         public void Cancel() {
             combatTargetTransform = null;
+        }
+
+        // Handle attack animation event Hit
+        void Hit() {
+
         }
     }
 }
