@@ -1,17 +1,20 @@
 using UnityEngine;
 using RPG.Movement;
+using RPG.Core;
 
 namespace RPG.Combat {
-    public class CharacterCombat : MonoBehaviour {
+    public class CharacterCombat : MonoBehaviour, IAction {
 
         [SerializeField] float weaponRange = 2f;
 
         // Dependency
         private CharacterMovement characterMovement;
+        private ActionScheduler actionScheduler;
 
         private Transform combatTargetTransform;
         public void Initialize() {
             characterMovement = GetComponent<CharacterMovement>();
+            actionScheduler = GetComponent<ActionScheduler>();
         }
 
         void Update() {
@@ -21,14 +24,14 @@ namespace RPG.Combat {
             if (!IsInAttackRange()) {
                 characterMovement.MoveTo(combatTargetTransform.transform.position);
             } else {
-                characterMovement.Stop();
+                characterMovement.Cancel();
                 Cancel();
             }
         }
 
         private bool IsInAttackRange() {
             float charToTargetDistance = Vector3.Distance(transform.position, combatTargetTransform.transform.position);
-            Debug.Log($"charToTargetDistance: {charToTargetDistance}");
+            // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
             if (charToTargetDistance > weaponRange) {
                 return false;
@@ -39,6 +42,7 @@ namespace RPG.Combat {
 
         public void Attack(CombatTarget combatTarget) {
             Debug.Log($"Fighter is attacking!");
+            actionScheduler.StartAction(this);
             combatTargetTransform = combatTarget.transform;            
         }
 

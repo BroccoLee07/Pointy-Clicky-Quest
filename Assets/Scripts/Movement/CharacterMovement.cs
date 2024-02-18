@@ -1,15 +1,18 @@
-using RPG.Combat;
+using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement {
-    public class CharacterMovement : MonoBehaviour {
+    public class CharacterMovement : MonoBehaviour, IAction {
         private const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
 
+        // Dependency
+        private ActionScheduler actionScheduler;
         private NavMeshAgent characterNavMeshAgent;
 
         public void Initialize() {
-            characterNavMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+            characterNavMeshAgent = GetComponent<NavMeshAgent>();
+            actionScheduler = GetComponent<ActionScheduler>();
         }
 
         void Update() {
@@ -18,7 +21,7 @@ namespace RPG.Movement {
 
         public void StartMoveAction(Vector3 destination) {
             // Cancel any ongoing combat when new movement is initiated
-            GetComponent<CharacterCombat>().Cancel();
+            actionScheduler.StartAction(this);
             MoveTo(destination);
         }
 
@@ -27,7 +30,7 @@ namespace RPG.Movement {
             characterNavMeshAgent.isStopped = false;
         }
 
-        public void Stop() {
+        public void Cancel() {
             characterNavMeshAgent.isStopped = true;
         }
 
@@ -36,7 +39,7 @@ namespace RPG.Movement {
             // Convert from global velocity (from world space) to local velocity to be used by animator
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             float speed = localVelocity.z;
-            gameObject.GetComponent<Animator>().SetFloat(ANIMATOR_FORWARD_SPEED, speed);
+            GetComponent<Animator>().SetFloat(ANIMATOR_FORWARD_SPEED, speed);
         }
     }
 }
