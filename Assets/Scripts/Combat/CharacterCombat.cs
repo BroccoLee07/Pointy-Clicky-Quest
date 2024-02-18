@@ -5,7 +5,8 @@ using RPG.Core;
 namespace RPG.Combat {
     public class CharacterCombat : MonoBehaviour, IAction {
 
-        [SerializeField] float weaponRange = 2f;
+        [SerializeField] private float weaponRange = 2f;
+        [SerializeField] private float timeBetweenAttacks = 1f;
 
         // Dependency
         private CharacterMovement characterMovement;
@@ -13,6 +14,7 @@ namespace RPG.Combat {
         private Animator animator;
 
         private Transform combatTargetTransform;
+        private float timeSinceLastAttack = 0;
         public void Initialize() {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
@@ -20,6 +22,9 @@ namespace RPG.Combat {
         }
 
         void Update() {
+            // Will keep increasing when no attack
+            timeSinceLastAttack += Time.deltaTime;
+
             if (combatTargetTransform == null) return;
 
             // Handle movement towards any existing combat target
@@ -33,7 +38,10 @@ namespace RPG.Combat {
         }
 
         private void AttackBehaviour() {
+            if (timeSinceLastAttack <= timeBetweenAttacks) return;
+
             animator.SetTrigger("attack");
+            timeSinceLastAttack = 0;
 
             // TODO: Apply damage here
         }
