@@ -15,8 +15,13 @@ namespace RPG.Movement {
             UpdateAnimator();
         }
 
-        public void MoveTo(Vector3 destination) {
+        public void MoveTo(Vector3 destination) {            
             characterNavMeshAgent?.SetDestination(destination);
+            characterNavMeshAgent.isStopped = false;
+        }
+
+        public void Stop() {
+            characterNavMeshAgent.isStopped = true;
         }
 
         private void UpdateAnimator() {
