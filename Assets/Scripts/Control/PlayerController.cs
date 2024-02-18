@@ -18,11 +18,13 @@ namespace RPG.Control {
         }
 
         void Update() {
-            ProcessCombat();
-            ProcessMovement();
+            if (ProcessCombat()) return;
+            if (ProcessMovement()) return;
+
+            Debug.Log("Nothing to do.");
         }
 
-        private void ProcessCombat() {
+        private bool ProcessCombat() {
             RaycastHit[] raycastHits = Physics.RaycastAll(GetMouseInputRay());
 
             foreach (RaycastHit hit in raycastHits) {                
@@ -31,28 +33,35 @@ namespace RPG.Control {
                 if (target == null) continue;
 
                 if (Input.GetMouseButtonDown(0)) {
-                    characterCombat.Attack(target);
+                    characterCombat.Attack(target);                    
                 }
+
+                // Return here since we are still handling/executing the ProcessCombat
+                // This includes hovering on a target and not clicking yet
+                return true;
             }
+
+            return false;
         }
 
         private static Ray GetMouseInputRay() {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
         }
 
-        private void ProcessMovement() {
-            if (Input.GetMouseButton(0)) {
-                MoveToCursor();
-            }
-        }
-
-        private void MoveToCursor() {
+        private bool ProcessMovement() {
             RaycastHit raycastHit;
 
             // Check if Physics Raycast has a hit
             if (Physics.Raycast(GetMouseInputRay(), out raycastHit)) {
-                characterMovement.MoveTo(raycastHit.point);
+                if (Input.GetMouseButton(0)) {
+                    characterMovement.MoveTo(raycastHit.point);
+                }
+
+                // Mouse could hover over terrain
+                return true;
             }
+
+            return false;
         }
     }
 }
