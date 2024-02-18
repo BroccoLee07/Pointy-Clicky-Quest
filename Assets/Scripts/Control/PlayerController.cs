@@ -54,7 +54,7 @@ namespace RPG.Control {
             // Check if Physics Raycast has a hit
             if (Physics.Raycast(GetMouseInputRay(), out raycastHit)) {
                 if (Input.GetMouseButton(0)) {
-                    characterMovement.MoveTo(raycastHit.point);
+                    characterMovement.StartMoveAction(raycastHit.point);
                 }
 
                 // Mouse could hover over terrain

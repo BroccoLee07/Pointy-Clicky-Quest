@@ -15,22 +15,35 @@ namespace RPG.Combat {
         }
 
         void Update() {
-            if (combatTargetTransform != null) {
-                float charToTargetDistance = Vector3.Distance(transform.position, combatTargetTransform.transform.position);
-                Debug.Log($"charToTargetDistance: {charToTargetDistance}");
-                if (charToTargetDistance > weaponRange) {
-                    characterMovement.MoveTo(combatTargetTransform.transform.position);
-                } else {
-                    characterMovement.Stop();
-                    combatTargetTransform = null;
-                }
+            if (combatTargetTransform == null) return;
+
+            // Handle movement towards any existing combat target
+            if (!IsInAttackRange()) {
+                characterMovement.MoveTo(combatTargetTransform.transform.position);
+            } else {
+                characterMovement.Stop();
+                Cancel();
+            }
+        }
+
+        private bool IsInAttackRange() {
+            float charToTargetDistance = Vector3.Distance(transform.position, combatTargetTransform.transform.position);
+            Debug.Log($"charToTargetDistance: {charToTargetDistance}");
+
+            if (charToTargetDistance > weaponRange) {
+                return false;
+            } else {
+                return true;
             }
         }
 
         public void Attack(CombatTarget combatTarget) {
             Debug.Log($"Fighter is attacking!");
-            combatTargetTransform = combatTarget.transform;
-            
+            combatTargetTransform = combatTarget.transform;            
+        }
+
+        public void Cancel() {
+            combatTargetTransform = null;
         }
     }
 }

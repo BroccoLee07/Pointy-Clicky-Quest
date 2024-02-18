@@ -1,3 +1,4 @@
+using RPG.Combat;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,12 @@ namespace RPG.Movement {
 
         void Update() {
             UpdateAnimator();
+        }
+
+        public void StartMoveAction(Vector3 destination) {
+            // Cancel any ongoing combat when new movement is initiated
+            GetComponent<CharacterCombat>().Cancel();
+            MoveTo(destination);
         }
 
         public void MoveTo(Vector3 destination) {            
