@@ -17,6 +17,8 @@ namespace RPG.Combat {
         private Transform targetTransform;
         private Health targetHealth;
         private float timeSinceLastAttack = 0;
+
+        private const string ANIMATOR_ATTACK_TRIGGER = "attack";
         public void Initialize() {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
@@ -43,7 +45,7 @@ namespace RPG.Combat {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
             // This will trigger the Hit() animation event
-            animator.SetTrigger("attack");
+            animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER);
             timeSinceLastAttack = 0;            
         }
 
