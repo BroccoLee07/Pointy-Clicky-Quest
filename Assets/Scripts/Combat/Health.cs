@@ -9,11 +9,13 @@ namespace RPG.Combat {
 
         private const string ANIMATOR_DIE_TRIGGER = "die";
 
+        public bool IsDead { get => isDead; }
+
         // public void Initialize() {
         //     animator = GetComponent<Animator>();
         // }
         public void TakeDamage(float damage) {
-            if (isDead) return;
+            if (IsDead) return;
 
             // To avoid the health going below 0
             healthPoints = Mathf.Max(healthPoints - damage, 0);

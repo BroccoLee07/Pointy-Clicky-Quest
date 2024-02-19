@@ -3,6 +3,9 @@ using RPG.Movement;
 using RPG.Combat;
 
 namespace RPG.Control {
+    [RequireComponent(typeof(CharacterMovement))]
+    [RequireComponent(typeof(CharacterCombat))]
+    [RequireComponent(typeof(Health))]
     public class PlayerController : MonoBehaviour {
         private CharacterMovement characterMovement;
         private CharacterCombat characterCombat;

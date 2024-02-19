@@ -15,10 +15,11 @@ namespace RPG.Combat {
         private Animator animator;
 
         private Transform targetTransform;
-        private Health targetHealth;
+        // private Health targetHealth;
         private float timeSinceLastAttack = 0;
 
         private const string ANIMATOR_ATTACK_TRIGGER = "attack";
+        private const string ANIMATOR_STOP_ATTACK_TRIGGER = "stopAttack";
         public void Initialize() {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
@@ -30,10 +31,11 @@ namespace RPG.Combat {
             timeSinceLastAttack += Time.deltaTime;
 
             if (targetTransform == null) return;
+            if (GetTargetHealth().IsDead) return;
 
             // Handle movement towards any existing combat target
             if (!IsInAttackRange()) {
-                characterMovement.MoveTo(targetTransform.transform.position);
+                characterMovement.MoveTo(targetTransform.position);
             } else {
                 characterMovement.Cancel();
 
@@ -44,6 +46,8 @@ namespace RPG.Combat {
         private void AttackBehaviour() {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
+            transform.LookAt(targetTransform);
+            
             // This will trigger the Hit() animation event
             animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER);
             timeSinceLastAttack = 0;            
@@ -55,7 +59,7 @@ namespace RPG.Combat {
         }
 
         private bool IsInAttackRange() {
-            float charToTargetDistance = Vector3.Distance(transform.position, targetTransform.transform.position);
+            float charToTargetDistance = Vector3.Distance(transform.position, targetTransform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
             if (charToTargetDistance > weaponRange) {
@@ -72,6 +76,7 @@ namespace RPG.Combat {
         }
 
         public void Cancel() {
+            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
             targetTransform = null;
         }
 

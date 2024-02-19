@@ -10,7 +10,7 @@ namespace RPG.Core {
             if (currentAction == action) return;
 
             if (currentAction != null) {
-                Debug.Log($"Cancel action: {currentAction}");
+                // Debug.Log($"Cancel action: {currentAction}");
                 currentAction.Cancel();
             }
             
