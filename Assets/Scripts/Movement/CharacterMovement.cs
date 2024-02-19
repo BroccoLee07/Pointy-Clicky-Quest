@@ -22,10 +22,11 @@ namespace RPG.Movement {
         public void StartMoveAction(Vector3 destination) {
             // Cancel any ongoing combat when new movement is initiated
             actionScheduler.StartAction(this);
+            // TODO: Check if dead enemy or obstacle is on destination
             MoveTo(destination);
         }
 
-        public void MoveTo(Vector3 destination) {            
+        public void MoveTo(Vector3 destination) {          
             characterNavMeshAgent?.SetDestination(destination);
             characterNavMeshAgent.isStopped = false;
         }

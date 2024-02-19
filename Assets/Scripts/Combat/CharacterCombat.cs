@@ -77,6 +77,7 @@ namespace RPG.Combat {
         public bool CanAttack(CombatTarget target) {
             if (target == null) return false;
 
+            Debug.Log($"target dead? {target.GetHealth().IsDead}");
             return target != null && !target.GetHealth().IsDead;
         }
 
