@@ -14,8 +14,8 @@ namespace RPG.Combat {
         private ActionScheduler actionScheduler;
         private Animator animator;
 
-        private Transform targetTransform;
-        // private Health targetHealth;
+        // private Transform targetTransform;
+        private CombatTarget target;
         private float timeSinceLastAttack = 0;
 
         private const string ANIMATOR_ATTACK_TRIGGER = "attack";
@@ -30,12 +30,12 @@ namespace RPG.Combat {
             // Will keep increasing when no attack
             timeSinceLastAttack += Time.deltaTime;
 
-            if (targetTransform == null) return;
-            if (GetTargetHealth().IsDead) return;
+            if (target == null) return;
+            if (target.GetHealth().IsDead) return;
 
             // Handle movement towards any existing combat target
             if (!IsInAttackRange()) {
-                characterMovement.MoveTo(targetTransform.position);
+                characterMovement.MoveTo(target.transform.position);
             } else {
                 characterMovement.Cancel();
 
@@ -43,23 +43,28 @@ namespace RPG.Combat {
             }
         }
 
-        private void AttackBehaviour() {
+        private void AttackBehaviour()
+        {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
-            transform.LookAt(targetTransform);
-            
+            transform.LookAt(target.transform);
+            TriggerAttack();
+            timeSinceLastAttack = 0;
+        }
+
+        private void TriggerAttack() {
+            animator.ResetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
             // This will trigger the Hit() animation event
             animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER);
-            timeSinceLastAttack = 0;            
         }
 
         // Handle attack animation event Hit
         void Hit() {
-            GetTargetHealth()?.TakeDamage(weaponDamage);
+            target?.GetHealth()?.TakeDamage(weaponDamage);
         }
 
         private bool IsInAttackRange() {
-            float charToTargetDistance = Vector3.Distance(transform.position, targetTransform.position);
+            float charToTargetDistance = Vector3.Distance(transform.position, target.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
             if (charToTargetDistance > weaponRange) {
@@ -69,19 +74,26 @@ namespace RPG.Combat {
             }
         }
 
+        public bool CanAttack(CombatTarget target) {
+            if (target == null) return false;
+
+            return target != null && !target.GetHealth().IsDead;
+        }
+
         public void Attack(CombatTarget combatTarget) {
             Debug.Log($"Fighter is attacking!");
             actionScheduler.StartAction(this);
-            targetTransform = combatTarget.transform;            
+            target = combatTarget;            
         }
 
         public void Cancel() {
-            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
-            targetTransform = null;
+            StopAttack();
+            target = null;
         }
 
-        public Health GetTargetHealth() {
-            return targetTransform?.GetComponent<Health>();
+        private void StopAttack() {
+            animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
+            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
         }
     }
 }

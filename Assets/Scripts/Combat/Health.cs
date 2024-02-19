@@ -5,7 +5,7 @@ namespace RPG.Combat {
         [SerializeField] private float healthPoints = 100f;
 
         private bool isDead = false;
-        private Animator animator;
+        // private Animator animator;
 
         private const string ANIMATOR_DIE_TRIGGER = "die";
 
