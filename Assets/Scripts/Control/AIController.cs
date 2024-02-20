@@ -38,5 +38,11 @@ namespace RPG.Control {
         private bool IsPlayerInDetectRange() {
             return Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
         }
+
+        // Called by Unity
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
+        }
     }
 }
