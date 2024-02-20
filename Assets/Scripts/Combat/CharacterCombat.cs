@@ -3,6 +3,9 @@ using RPG.Movement;
 using RPG.Core;
 
 namespace RPG.Combat {
+    [RequireComponent(typeof(CharacterMovement))]
+    [RequireComponent(typeof(ActionScheduler))]
+    [RequireComponent(typeof(Animator))]
     public class CharacterCombat : MonoBehaviour, IAction {
 
         [SerializeField] private float weaponRange = 2f;
@@ -13,15 +16,13 @@ namespace RPG.Combat {
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
         private Animator animator;
-
-        // private Transform targetTransform;
-        // private CombatTarget target;
         private Health targetHealth;
-        private float timeSinceLastAttack = 0;
+
+        private float timeSinceLastAttack = Mathf.Infinity;
 
         private const string ANIMATOR_ATTACK_TRIGGER = "attack";
         private const string ANIMATOR_STOP_ATTACK_TRIGGER = "stopAttack";
-        public void Initialize() {
+        void Start() {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
@@ -44,8 +45,7 @@ namespace RPG.Combat {
             }
         }
 
-        private void AttackBehaviour()
-        {
+        private void AttackBehaviour() {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
             transform.LookAt(targetHealth.transform);
@@ -85,8 +85,6 @@ namespace RPG.Combat {
 
         public void Attack(GameObject combatTarget) {
             Debug.Log($"Fighter is attacking!");
-            Debug.Log($"actionScheduler: {actionScheduler}");
-            Debug.Log($"this: {this} and name: {this.name}");
             actionScheduler.StartAction(this);
             targetHealth = combatTarget.GetComponent<Health>();            
         }

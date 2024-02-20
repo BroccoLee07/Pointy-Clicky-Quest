@@ -3,19 +3,27 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement {
+    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(ActionScheduler))]
+    [RequireComponent(typeof(Health))]
     public class CharacterMovement : MonoBehaviour, IAction {
         private const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
 
         // Dependency
         private ActionScheduler actionScheduler;
+        private Health characterHealth;
         private NavMeshAgent characterNavMeshAgent;
 
-        public void Initialize() {
+        void Start() {
             characterNavMeshAgent = GetComponent<NavMeshAgent>();
             actionScheduler = GetComponent<ActionScheduler>();
+            characterHealth = GetComponent<Health>();
         }
-
         void Update() {
+            characterNavMeshAgent.enabled = !characterHealth.IsDead;
+
+            if (characterHealth.IsDead) return;
+
             UpdateAnimator();
         }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control {
     [RequireComponent(typeof(CharacterMovement))]
@@ -9,18 +10,19 @@ namespace RPG.Control {
     public class PlayerController : MonoBehaviour {
         private CharacterMovement characterMovement;
         private CharacterCombat characterCombat;
+        private Health health;
 
         // Initialize dependencies here
         // Note: Might be good to use Zenject or some dependency injection framework to handle these
         void Start() {
             characterMovement = gameObject.GetComponent<CharacterMovement>();
             characterCombat = gameObject.GetComponent<CharacterCombat>();
-
-            characterMovement.Initialize();
-            characterCombat.Initialize();
+            health = GetComponent<Health>();
         }
 
         void Update() {
+            if (health.IsDead) return;
+            
             if (ProcessCombat()) return;
             if (ProcessMovement()) return;
 
