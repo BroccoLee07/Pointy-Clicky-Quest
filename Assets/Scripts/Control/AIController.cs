@@ -11,6 +11,8 @@ namespace RPG.Control {
     public class AIController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
         [SerializeField] private float suspicionTime = 5f;
+        [SerializeField] private PatrolPath patrolPath; // Can be null
+        [SerializeField] private float wayPointTolerance = 1f;
 
         // Dependency
         private CharacterCombat characterCombat;
@@ -21,6 +23,7 @@ namespace RPG.Control {
 
         private Vector3 guardPosition;
         private float timeSinceLastDetectedPlayer = Mathf.Infinity;
+        private int currentWaypointIndex = 0;
         
 
         void Start() {
@@ -44,15 +47,41 @@ namespace RPG.Control {
                 // Linger on doing nothing as if thinking or suspicious of player's action
                 SuspicionBehaviour();
             } else {
-                // Return to guard position if player is out of range or cannot be attacked
-                GuardBehaviour();
+                // Return to patrol if player is out of range or cannot be attacked
+                PatrolBehaviour();
             }
 
             timeSinceLastDetectedPlayer += Time.deltaTime;
         }
 
-        private void GuardBehaviour() {
-            characterMovement.StartMoveAction(guardPosition);
+        private void PatrolBehaviour() {
+            Vector3 nextPosition = guardPosition;
+
+            // If AI has a patrol path, start patrol
+            if (patrolPath != null)  {
+                if (IsAtWaypoint()) {
+                    // If already at current waypoint, update the current waypoint to be the next waypoint
+                    CycleWaypoint();
+                }
+
+                // Move to currently assigned waypoint
+                nextPosition = GetCurrentWaypoint();
+            }
+
+            characterMovement.StartMoveAction(nextPosition);
+        }
+
+        private void CycleWaypoint() {
+            currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
+        }
+
+        private Vector3 GetCurrentWaypoint() {
+            return patrolPath.GetWaypoint(currentWaypointIndex);
+        }
+
+        private bool IsAtWaypoint() {
+            // Check if at the waypoint or near it
+            return Vector3.Distance(transform.position, GetCurrentWaypoint()) <= wayPointTolerance;
         }
 
         private void SuspicionBehaviour() {
