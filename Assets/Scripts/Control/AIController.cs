@@ -12,7 +12,8 @@ namespace RPG.Control {
         [SerializeField] private float chaseDistance = 5f;
         [SerializeField] private float suspicionTime = 5f;
         [SerializeField] private PatrolPath patrolPath; // Can be null
-        [SerializeField] private float wayPointTolerance = 1f;
+        [SerializeField] private float waypointTolerance = 1f;
+        [SerializeField] private float waypointDwellTime = 3f;
 
         // Dependency
         private CharacterCombat characterCombat;
@@ -23,6 +24,7 @@ namespace RPG.Control {
 
         private Vector3 guardPosition;
         private float timeSinceLastDetectedPlayer = Mathf.Infinity;
+        private float timeSinceWaypointArrival = Mathf.Infinity;
         private int currentWaypointIndex = 0;
         
 
@@ -39,11 +41,10 @@ namespace RPG.Control {
         void Update() {
             if (player == null) return;
             if (health.IsDead) return;
-            
-            if (IsPlayerInDetectRange() && characterCombat.CanAttack(player)) {
-                timeSinceLastDetectedPlayer = 0;
+
+            if (IsPlayerInDetectRange() && characterCombat.CanAttack(player)) {                
                 AttackBehaviour();
-            } else if (timeSinceLastDetectedPlayer <= suspicionTime) {
+            } else if (timeSinceLastDetectedPlayer <= suspicionTime)  {
                 // Linger on doing nothing as if thinking or suspicious of player's action
                 SuspicionBehaviour();
             } else {
@@ -51,7 +52,12 @@ namespace RPG.Control {
                 PatrolBehaviour();
             }
 
+            UpdateTimers();
+        }
+
+        private void UpdateTimers() {
             timeSinceLastDetectedPlayer += Time.deltaTime;
+            timeSinceWaypointArrival += Time.deltaTime;
         }
 
         private void PatrolBehaviour() {
@@ -59,7 +65,8 @@ namespace RPG.Control {
 
             // If AI has a patrol path, start patrol
             if (patrolPath != null)  {
-                if (IsAtWaypoint()) {
+                if (IsAtWaypoint()) {            
+                    timeSinceWaypointArrival = 0;        
                     // If already at current waypoint, update the current waypoint to be the next waypoint
                     CycleWaypoint();
                 }
@@ -68,10 +75,14 @@ namespace RPG.Control {
                 nextPosition = GetCurrentWaypoint();
             }
 
-            characterMovement.StartMoveAction(nextPosition);
+            // Dwell at waypoint for time indicated then start moving again
+            if (timeSinceWaypointArrival > waypointDwellTime) {
+                characterMovement.StartMoveAction(nextPosition);
+            }
         }
 
         private void CycleWaypoint() {
+            // Update the current waypoint to be the next waypoint
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
         }
 
@@ -81,14 +92,16 @@ namespace RPG.Control {
 
         private bool IsAtWaypoint() {
             // Check if at the waypoint or near it
-            return Vector3.Distance(transform.position, GetCurrentWaypoint()) <= wayPointTolerance;
+            return Vector3.Distance(transform.position, GetCurrentWaypoint()) <= waypointTolerance;
         }
 
         private void SuspicionBehaviour() {
+            // Cancel any ongoing action to do nothing
             actionScheduler.CancelCurrentAction();
         }
 
         private void AttackBehaviour() {
+            timeSinceLastDetectedPlayer = 0;
             characterCombat.Attack(player);
         }
 
