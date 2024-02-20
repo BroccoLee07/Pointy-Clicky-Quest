@@ -15,7 +15,8 @@ namespace RPG.Combat {
         private Animator animator;
 
         // private Transform targetTransform;
-        private CombatTarget target;
+        // private CombatTarget target;
+        private Health targetHealth;
         private float timeSinceLastAttack = 0;
 
         private const string ANIMATOR_ATTACK_TRIGGER = "attack";
@@ -30,12 +31,12 @@ namespace RPG.Combat {
             // Will keep increasing when no attack
             timeSinceLastAttack += Time.deltaTime;
 
-            if (target == null) return;
-            if (target.GetHealth().IsDead) return;
+            if (targetHealth == null) return;
+            if (targetHealth.IsDead) return;
 
             // Handle movement towards any existing combat target
             if (!IsInAttackRange()) {
-                characterMovement.MoveTo(target.transform.position);
+                characterMovement.MoveTo(targetHealth.transform.position);
             } else {
                 characterMovement.Cancel();
 
@@ -47,7 +48,7 @@ namespace RPG.Combat {
         {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
-            transform.LookAt(target.transform);
+            transform.LookAt(targetHealth.transform);
             TriggerAttack();
             timeSinceLastAttack = 0;
         }
@@ -60,11 +61,11 @@ namespace RPG.Combat {
 
         // Handle attack animation event Hit
         void Hit() {
-            target?.GetHealth()?.TakeDamage(weaponDamage);
+            targetHealth?.TakeDamage(weaponDamage);
         }
 
         private bool IsInAttackRange() {
-            float charToTargetDistance = Vector3.Distance(transform.position, target.transform.position);
+            float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
             if (charToTargetDistance > weaponRange) {
@@ -74,22 +75,25 @@ namespace RPG.Combat {
             }
         }
 
-        public bool CanAttack(CombatTarget target) {
+        public bool CanAttack(GameObject target) {
             if (target == null) return false;
 
             // Debug.Log($"target dead? {target.GetHealth().IsDead}");
-            return target != null && !target.GetHealth().IsDead;
+            Health targetHealth = target.GetComponent<Health>();
+            return targetHealth != null && !targetHealth.IsDead;
         }
 
-        public void Attack(CombatTarget combatTarget) {
+        public void Attack(GameObject combatTarget) {
             Debug.Log($"Fighter is attacking!");
+            Debug.Log($"actionScheduler: {actionScheduler}");
+            Debug.Log($"this: {this} and name: {this.name}");
             actionScheduler.StartAction(this);
-            target = combatTarget;            
+            targetHealth = combatTarget.GetComponent<Health>();            
         }
 
         public void Cancel() {
             StopAttack();
-            target = null;
+            targetHealth = null;
         }
 
         private void StopAttack() {

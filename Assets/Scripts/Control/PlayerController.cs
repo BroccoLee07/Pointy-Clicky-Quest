@@ -33,10 +33,12 @@ namespace RPG.Control {
             foreach (RaycastHit hit in raycastHits) {                
                 CombatTarget target = hit.collider.GetComponent<CombatTarget>();
 
-                if (!characterCombat.CanAttack(target)) continue;
+                if (target == null) continue;
+
+                if (!characterCombat.CanAttack(target.gameObject)) continue;
 
                 if (Input.GetMouseButtonDown(0)) {
-                    characterCombat.Attack(target);                    
+                    characterCombat.Attack(target.gameObject);                    
                 }
 
                 // Return here since we are still handling/executing the ProcessCombat

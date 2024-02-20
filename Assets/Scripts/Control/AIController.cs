@@ -1,26 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using RPG.Combat;
+using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Control {
     public class AIController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
 
+        // Dependency
+        private CharacterCombat characterCombat;
+        private CharacterMovement characterMovement;
+
         private GameObject player;
 
-        void Awake() {
+        void Start() {
             player = GameObject.FindWithTag("Player");
+            characterCombat = GetComponent<CharacterCombat>();
+            characterMovement = GetComponent<CharacterMovement>();
+
+            characterCombat.Initialize();
+            characterMovement.Initialize();
         }
+
         void Update() {
             if (player == null) return;
             
-            if (IsPlayerInRange()) {
-                Debug.Log($"{gameObject.name} will give chase to player");
+            if (IsPlayerInDetectRange() && characterCombat.CanAttack(player)) {                
+                characterCombat.Attack(player);
+            } else {
+                characterCombat.Cancel();
             }
         }
 
-        private bool IsPlayerInRange() {
-            return Vector3.Distance(this.transform.position, player.transform.position) <= chaseDistance;
+        private bool IsPlayerInDetectRange() {
+            return Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
         }
     }
 }
