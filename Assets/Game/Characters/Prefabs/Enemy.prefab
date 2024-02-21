@@ -120,9 +120,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_Speed
+      value: 7.5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
-    - {fileID: 5758418872532585921, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
 --- !u!4 &4026112312070104340 stripped
 Transform:
@@ -160,3 +163,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684fbe1c9696ad148aaa713d6c1b006d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6191440014043546455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026112312070104424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4461f2bf97e5daf49ba8b41acfaf11b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseDistance: 5
+  suspicionTime: 5
