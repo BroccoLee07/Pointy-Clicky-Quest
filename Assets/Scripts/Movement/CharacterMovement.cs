@@ -7,12 +7,14 @@ namespace RPG.Movement {
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Health))]
     public class CharacterMovement : MonoBehaviour, IAction {
-        private const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
+        [SerializeField] private float maxSpeed = 5.5f;
 
         // Dependency
         private ActionScheduler actionScheduler;
         private Health characterHealth;
         private NavMeshAgent characterNavMeshAgent;
+
+        private const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
 
         void Start() {
             characterNavMeshAgent = GetComponent<NavMeshAgent>();
@@ -27,15 +29,16 @@ namespace RPG.Movement {
             UpdateAnimator();
         }
 
-        public void StartMoveAction(Vector3 destination) {
+        public void StartMoveAction(Vector3 destination, float speedFraction) {
             // Cancel any ongoing combat when new movement is initiated
             actionScheduler.StartAction(this);
             // TODO: Check if dead enemy or obstacle is on destination
-            MoveTo(destination);
+            MoveTo(destination, speedFraction);
         }
 
-        public void MoveTo(Vector3 destination) {          
+        public void MoveTo(Vector3 destination, float speedFraction) {          
             characterNavMeshAgent?.SetDestination(destination);
+            characterNavMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             characterNavMeshAgent.isStopped = false;
         }
 

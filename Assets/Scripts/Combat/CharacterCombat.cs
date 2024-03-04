@@ -37,7 +37,7 @@ namespace RPG.Combat {
 
             // Handle movement towards any existing combat target
             if (!IsInAttackRange()) {
-                characterMovement.MoveTo(targetHealth.transform.position);
+                characterMovement.MoveTo(targetHealth.transform.position, 1f);
             } else {
                 characterMovement.Cancel();
 
