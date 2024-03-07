@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
 using RPG.Core;
+using UnityEngine.AI;
 
 namespace RPG.Control {
     [RequireComponent(typeof(CharacterMovement))]
@@ -18,6 +19,7 @@ namespace RPG.Control {
             characterMovement = gameObject.GetComponent<CharacterMovement>();
             characterCombat = gameObject.GetComponent<CharacterCombat>();
             health = GetComponent<Health>();
+            GetComponent<NavMeshAgent>().enabled = true;
         }
 
         void Update() {
