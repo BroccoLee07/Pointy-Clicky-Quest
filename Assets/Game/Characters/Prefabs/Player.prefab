@@ -68,6 +68,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2989744103560813002, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: weaponDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: healthPoints
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 5758418872468737153, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_Name
       value: Player
@@ -82,15 +90,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5758418872468737277, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -13.23
       objectReference: {fileID: 0}
     - target: {fileID: 5758418872468737277, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.356
       objectReference: {fileID: 0}
     - target: {fileID: 5758418872468737277, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -34.69
       objectReference: {fileID: 0}
     - target: {fileID: 5758418872468737277, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -120,6 +128,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_Speed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_Height
+      value: 1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_BaseOffset
+      value: -0.125
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
 --- !u!4 &3507652297085623198 stripped
@@ -132,6 +156,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5758418872468737153, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
   m_PrefabInstance: {fileID: 9171488671029303139}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &363965605
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507652297085623266}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.925, z: 0}
 --- !u!114 &5644572548928757339
 MonoBehaviour:
   m_ObjectHideFlags: 0
