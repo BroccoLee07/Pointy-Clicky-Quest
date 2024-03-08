@@ -10,9 +10,16 @@ namespace RPG.SceneManagement {
             A, B, C, D, E
         }
 
+        [Header("Portal Settings")]
         [SerializeField] private int sceneToLoad = -1;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] DestinationIdentifier destination;
+
+        [Space(10)]
+        [Header("Scene Fader")]
+        [SerializeField] private float fadeOutTime = 0.5f;
+        [SerializeField] private float fadeInTime = 1f;
+        [SerializeField] private float fadeWaitTime = 0.5f;
 
         private void OnTriggerEnter(Collider other) {
             if (other.gameObject.tag == "Player") {
@@ -28,10 +35,20 @@ namespace RPG.SceneManagement {
 
             // Keep portal in the next scene until it is finished loading completely
             DontDestroyOnLoad(gameObject);
+
+            SceneFader fader = FindObjectOfType<SceneFader>();
+            // Fade out as transition while changing scenes
+            yield return fader.FadeOut(fadeOutTime);
+            
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
+
+            // Have a bit of buffer for everything to initialize
+            yield return new WaitForSeconds(fadeWaitTime);
+            // Fade back in after loading everything needed in the new scene
+            yield return fader.FadeIn(fadeInTime);
 
             Destroy(gameObject);
         }
