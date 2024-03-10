@@ -2,8 +2,9 @@ using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
 using RPG.Saving;
+using System.Collections.Generic;
 
-namespace RPG.Movement {
+namespace RPG.Movement {    
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Health))]
@@ -56,14 +57,41 @@ namespace RPG.Movement {
         }
 
         public object CaptureState() {
-            return new SerializableVector3(transform.position);
+            // Note: Dictionary implementation for saving character position and rotation
+            // Dictionary<string, object> data = new Dictionary<string, object>();
+            // data["position"] = new SerializableVector3(transform.position);
+            // data["rotation"] = new SerializableVector3(transform.eulerAngles);
+
+            // Save character position and rotation using MoverSaveData
+            MoverSaveData data = new MoverSaveData();
+            data.position = new SerializableVector3(transform.position);
+            data.rotation = new SerializableVector3(transform.eulerAngles);
+
+            return data;
         }
 
         public void RestoreState(object state) {
-            SerializableVector3 lastCharacterPos = (SerializableVector3)state;
+            // Note: Dictionary implementation for loading character position and rotation
+            // Dictionary<string, object> data = (Dictionary<string, object>)state;
+
+            // Load character position and rotation using MoverSaveData
+            MoverSaveData data = (MoverSaveData)state;
+
             GetComponent<NavMeshAgent>().enabled = false;
-            transform.position = lastCharacterPos.ToVector();
+            
+            // transform.position = ((SerializableVector3)data["position"]).ToVector();
+            // transform.eulerAngles = ((SerializableVector3)data["rotation"]).ToVector();
+
+            transform.position = data.position.ToVector();
+            transform.eulerAngles = data.rotation.ToVector();
+
             GetComponent<NavMeshAgent>().enabled = true;
         }
-    }
+
+        [System.Serializable]
+        struct MoverSaveData {
+            public SerializableVector3 position;
+            public SerializableVector3 rotation;
+        }
+    }    
 }
