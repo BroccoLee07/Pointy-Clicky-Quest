@@ -6,8 +6,12 @@ namespace RPG.SceneManagement {
     public class SceneFader : MonoBehaviour {
         private CanvasGroup canvasGroup;
 
-        void Start() {
+        void Awake() {
             canvasGroup = GetComponent<CanvasGroup>();
+        }
+
+        public void FadeOutImmediate() {
+            canvasGroup.alpha = 1;
         }
 
         public IEnumerator FadeOut(float time) {            

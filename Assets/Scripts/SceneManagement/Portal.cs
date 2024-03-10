@@ -47,10 +47,13 @@ namespace RPG.SceneManagement {
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
 
             // Load current (transitioned to) level
-            savingWrapper.Load();
+            savingWrapper.Load();            
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
+
+            // Save after teleporting as checkpoint
+            savingWrapper.Save();
 
             // Have a bit of buffer for everything to initialize
             yield return new WaitForSeconds(fadeWaitTime);
