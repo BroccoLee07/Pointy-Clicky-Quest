@@ -1,12 +1,13 @@
 using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
+using RPG.Saving;
 
 namespace RPG.Movement {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Health))]
-    public class CharacterMovement : MonoBehaviour, IAction {
+    public class CharacterMovement : MonoBehaviour, IAction, ISaveable {
         [SerializeField] private float maxSpeed = 5.5f;
 
         // Dependency
@@ -52,6 +53,17 @@ namespace RPG.Movement {
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat(ANIMATOR_FORWARD_SPEED, speed);
+        }
+
+        public object CaptureState() {
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState(object state) {
+            SerializableVector3 lastCharacterPos = (SerializableVector3)state;
+            GetComponent<NavMeshAgent>().enabled = false;
+            transform.position = lastCharacterPos.ToVector();
+            GetComponent<NavMeshAgent>().enabled = true;
         }
     }
 }
