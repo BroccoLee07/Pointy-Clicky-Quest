@@ -57,11 +57,6 @@ namespace RPG.Movement {
         }
 
         public object CaptureState() {
-            // Note: Dictionary implementation for saving character position and rotation
-            // Dictionary<string, object> data = new Dictionary<string, object>();
-            // data["position"] = new SerializableVector3(transform.position);
-            // data["rotation"] = new SerializableVector3(transform.eulerAngles);
-
             // Save character position and rotation using MoverSaveData
             MoverSaveData data = new MoverSaveData();
             data.position = new SerializableVector3(transform.position);
@@ -71,20 +66,12 @@ namespace RPG.Movement {
         }
 
         public void RestoreState(object state) {
-            // Note: Dictionary implementation for loading character position and rotation
-            // Dictionary<string, object> data = (Dictionary<string, object>)state;
-
             // Load character position and rotation using MoverSaveData
             MoverSaveData data = (MoverSaveData)state;
 
             GetComponent<NavMeshAgent>().enabled = false;
-            
-            // transform.position = ((SerializableVector3)data["position"]).ToVector();
-            // transform.eulerAngles = ((SerializableVector3)data["rotation"]).ToVector();
-
             transform.position = data.position.ToVector();
             transform.eulerAngles = data.rotation.ToVector();
-
             GetComponent<NavMeshAgent>().enabled = true;
         }
 
