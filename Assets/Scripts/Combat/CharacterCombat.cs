@@ -1,6 +1,7 @@
 using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
+using System;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
@@ -11,6 +12,9 @@ namespace RPG.Combat {
         [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private float weaponDamage = 5f;
+        // Set to null for both weaponPrefab and handTransform for the case where character is unarmed
+        [SerializeField] private GameObject weaponPrefab = null;
+        [SerializeField] private Transform handTransform = null;
 
         // Dependency
         private CharacterMovement characterMovement;
@@ -26,7 +30,9 @@ namespace RPG.Combat {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
-        }
+
+            SpawnWeapon();
+        }        
 
         void Update() {
             // Will keep increasing when no attack
@@ -43,6 +49,12 @@ namespace RPG.Combat {
 
                 AttackBehaviour();
             }
+        }
+
+        private void SpawnWeapon() {
+            if (weaponPrefab == null || handTransform == null) return;
+            
+            Instantiate(weaponPrefab, handTransform);
         }
 
         private void AttackBehaviour() {
