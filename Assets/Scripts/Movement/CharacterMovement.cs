@@ -2,13 +2,13 @@ using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
 using RPG.Saving;
-using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Movement {    
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Health))]
-    public class CharacterMovement : MonoBehaviour, IAction, ISaveable {
+    public class CharacterMovement : MonoBehaviour, IAction, ISaveable, IJsonSaveable {
         [SerializeField] private float maxSpeed = 5.5f;
 
         // Dependency
@@ -18,7 +18,7 @@ namespace RPG.Movement {
 
         private const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
 
-        void Start() {
+        void Awake() {
             characterNavMeshAgent = GetComponent<NavMeshAgent>();
             actionScheduler = GetComponent<ActionScheduler>();
             characterHealth = GetComponent<Health>();
@@ -69,16 +69,31 @@ namespace RPG.Movement {
             // Load character position and rotation using MoverSaveData
             MoverSaveData data = (MoverSaveData)state;
 
-            GetComponent<NavMeshAgent>().enabled = false;
+            characterNavMeshAgent.enabled = false;
             transform.position = data.position.ToVector();
             transform.eulerAngles = data.rotation.ToVector();
-            GetComponent<NavMeshAgent>().enabled = true;
+            characterNavMeshAgent.enabled = true;
         }
 
-        [System.Serializable]
-        struct MoverSaveData {
-            public SerializableVector3 position;
-            public SerializableVector3 rotation;
+        public JToken CaptureAsJToken() {
+            CharacterMovementSaveData data = new CharacterMovementSaveData();
+            data.position = transform.position;
+            data.rotation = transform.eulerAngles;
+            return CharacterMovementSaveData.ToJToken(data);
         }
+
+        public void RestoreFromJToken(JToken state) {
+            characterNavMeshAgent.enabled = false;
+            transform.position = CharacterMovementSaveData.FromJToken(state).position;
+            transform.eulerAngles = CharacterMovementSaveData.FromJToken(state).rotation;
+            characterNavMeshAgent.enabled = true;
+            actionScheduler.CancelCurrentAction();
+        }        
+    }
+
+    [System.Serializable]
+    public struct MoverSaveData {
+        public SerializableVector3 position;
+        public SerializableVector3 rotation;
     }    
 }
