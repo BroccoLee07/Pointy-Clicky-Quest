@@ -4,7 +4,7 @@ using RPG.Saving;
 using UnityEngine;
 
 namespace RPG.SceneManagement {
-    [RequireComponent(typeof(SavingSystem))]
+    [RequireComponent(typeof(JsonSavingSystem))]
     public class SavingWrapper : MonoBehaviour {
 
         [SerializeField] private float fadeInTime = 0.2f;

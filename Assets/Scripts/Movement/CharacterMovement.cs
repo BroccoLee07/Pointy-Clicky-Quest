@@ -8,7 +8,7 @@ namespace RPG.Movement {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Health))]
-    public class CharacterMovement : MonoBehaviour, IAction, ISaveable, IJsonSaveable {
+    public class CharacterMovement : MonoBehaviour, IAction, IJsonSaveable {
         [SerializeField] private float maxSpeed = 5.5f;
 
         // Dependency
@@ -56,25 +56,6 @@ namespace RPG.Movement {
             GetComponent<Animator>().SetFloat(ANIMATOR_FORWARD_SPEED, speed);
         }
 
-        public object CaptureState() {
-            // Save character position and rotation using MoverSaveData
-            MoverSaveData data = new MoverSaveData();
-            data.position = new SerializableVector3(transform.position);
-            data.rotation = new SerializableVector3(transform.eulerAngles);
-
-            return data;
-        }
-
-        public void RestoreState(object state) {
-            // Load character position and rotation using MoverSaveData
-            MoverSaveData data = (MoverSaveData)state;
-
-            characterNavMeshAgent.enabled = false;
-            transform.position = data.position.ToVector();
-            transform.eulerAngles = data.rotation.ToVector();
-            characterNavMeshAgent.enabled = true;
-        }
-
         public JToken CaptureAsJToken() {
             CharacterMovementSaveData data = new CharacterMovementSaveData();
             data.position = transform.position;
@@ -89,11 +70,5 @@ namespace RPG.Movement {
             characterNavMeshAgent.enabled = true;
             actionScheduler.CancelCurrentAction();
         }        
-    }
-
-    [System.Serializable]
-    public struct MoverSaveData {
-        public SerializableVector3 position;
-        public SerializableVector3 rotation;
-    }    
+    } 
 }

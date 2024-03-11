@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RPG.Core {
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
-    public class Health : MonoBehaviour, ISaveable, IJsonSaveable {
+    public class Health : MonoBehaviour, IJsonSaveable {
         [SerializeField] private float healthPoints = 100f;
 
         private bool isDead = false;
