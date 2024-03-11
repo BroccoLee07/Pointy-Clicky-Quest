@@ -28,7 +28,7 @@ namespace RPG.Control {
             if (ProcessCombat()) return;
             if (ProcessMovement()) return;
 
-            Debug.Log("Nothing to do.");
+            // Debug.Log("Nothing to do.");
         }
 
         private bool ProcessCombat() {

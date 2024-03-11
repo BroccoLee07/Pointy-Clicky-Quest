@@ -1,12 +1,14 @@
 using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
-namespace RPG.Movement {
+namespace RPG.Movement {    
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Health))]
-    public class CharacterMovement : MonoBehaviour, IAction {
+    public class CharacterMovement : MonoBehaviour, IAction, IJsonSaveable {
         [SerializeField] private float maxSpeed = 5.5f;
 
         // Dependency
@@ -16,7 +18,7 @@ namespace RPG.Movement {
 
         private const string ANIMATOR_FORWARD_SPEED = "forwardSpeed";
 
-        void Start() {
+        void Awake() {
             characterNavMeshAgent = GetComponent<NavMeshAgent>();
             actionScheduler = GetComponent<ActionScheduler>();
             characterHealth = GetComponent<Health>();
@@ -53,5 +55,20 @@ namespace RPG.Movement {
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat(ANIMATOR_FORWARD_SPEED, speed);
         }
-    }
+
+        public JToken CaptureAsJToken() {
+            CharacterMovementSaveData data = new CharacterMovementSaveData();
+            data.position = transform.position;
+            data.rotation = transform.eulerAngles;
+            return CharacterMovementSaveData.ToJToken(data);
+        }
+
+        public void RestoreFromJToken(JToken state) {
+            characterNavMeshAgent.enabled = false;
+            transform.position = CharacterMovementSaveData.FromJToken(state).position;
+            transform.eulerAngles = CharacterMovementSaveData.FromJToken(state).rotation;
+            characterNavMeshAgent.enabled = true;
+            actionScheduler.CancelCurrentAction();
+        }        
+    } 
 }
