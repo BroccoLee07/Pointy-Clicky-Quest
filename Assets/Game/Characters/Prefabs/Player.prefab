@@ -65,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: bfbe2e8b331e2cc42be1591f949c0e41, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+--- !u!4 &438356977832191675 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 403948, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+  m_PrefabInstance: {fileID: 438356977832578903}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &438356977832249043 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 461188, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
@@ -94,6 +99,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1449659158791175489, guid: 60a47940b2b246b45a8b996686297c92, type: 3}
     - target: {fileID: 2989744103560813002, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 8525f4348ac69cd40895aef1853141e4, type: 2}
+    - target: {fileID: 2989744103560813002, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: handTransform
       value: 
       objectReference: {fileID: 438356977832249043}
@@ -101,6 +110,14 @@ PrefabInstance:
       propertyPath: weaponOverride
       value: 
       objectReference: {fileID: 22100000, guid: 50f70a92631247742986e63fead66b36, type: 2}
+    - target: {fileID: 2989744103560813002, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: leftHandTransform
+      value: 
+      objectReference: {fileID: 438356977832191675}
+    - target: {fileID: 2989744103560813002, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: rightHandTransform
+      value: 
+      objectReference: {fileID: 438356977832249043}
     - target: {fileID: 5332356094571059513, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: uniqueIdentifier
       value: player
@@ -190,6 +207,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5758418872468737153, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
   m_PrefabInstance: {fileID: 9171488671029303139}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &8619255799460338028
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507652297085623266}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &363965605
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -216,19 +249,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd2dd74a5d3e434dbdde3a57e1594d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &8619255799460338028
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3507652297085623266}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0

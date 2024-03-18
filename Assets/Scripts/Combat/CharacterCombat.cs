@@ -11,7 +11,8 @@ namespace RPG.Combat {
 
         [SerializeField] private float timeBetweenAttacks = 1f;
         // Set to null for variables related to weapons for the case where character is unarmed
-        [SerializeField] private Transform handTransform = null;
+        [SerializeField] private Transform leftHandTransform = null;
+        [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
 
         // Dependency
@@ -54,7 +55,7 @@ namespace RPG.Combat {
             if (weapon == null) return;
 
             currentWeapon = weapon;
-            weapon.Spawn(handTransform, animator);
+            weapon.Spawn(leftHandTransform, rightHandTransform, animator);
         }
 
         private void AttackBehaviour() {
