@@ -12,9 +12,10 @@ namespace RPG.Combat {
         [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private float weaponDamage = 5f;
-        // Set to null for both weaponPrefab and handTransform for the case where character is unarmed
+        // Set to null for both variables related to weapons for the case where character is unarmed
         [SerializeField] private GameObject weaponPrefab = null;
         [SerializeField] private Transform handTransform = null;
+        [SerializeField] private AnimatorOverrideController weaponOverride = null;
 
         // Dependency
         private CharacterMovement characterMovement;
@@ -55,6 +56,8 @@ namespace RPG.Combat {
             if (weaponPrefab == null || handTransform == null) return;
             
             Instantiate(weaponPrefab, handTransform);
+            // Override character animation with appropriate animation for the weapon
+            animator.runtimeAnimatorController = weaponOverride;
         }
 
         private void AttackBehaviour() {
