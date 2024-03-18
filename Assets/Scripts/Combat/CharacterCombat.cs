@@ -9,9 +9,7 @@ namespace RPG.Combat {
     [RequireComponent(typeof(Animator))]
     public class CharacterCombat : MonoBehaviour, IAction {
 
-        [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private float weaponDamage = 5f;
         // Set to null for variables related to weapons for the case where character is unarmed
         [SerializeField] private Transform handTransform = null;
         [SerializeField] Weapon weapon = null;
@@ -73,14 +71,14 @@ namespace RPG.Combat {
 
         // Handle attack animation event Hit
         void Hit() {
-            targetHealth?.TakeDamage(weaponDamage);
+            targetHealth?.TakeDamage(weapon.Damage);
         }
 
         private bool IsInAttackRange() {
             float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
-            if (charToTargetDistance > weaponRange) {
+            if (charToTargetDistance > weapon.Range) {
                 return false;
             } else {
                 return true;
