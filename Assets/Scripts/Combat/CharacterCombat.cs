@@ -12,13 +12,14 @@ namespace RPG.Combat {
         [SerializeField] private float timeBetweenAttacks = 1f;
         // Set to null for variables related to weapons for the case where character is unarmed
         [SerializeField] private Transform handTransform = null;
-        [SerializeField] Weapon weapon = null;
+        [SerializeField] Weapon defaultWeapon = null;
 
         // Dependency
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
         private Animator animator;
         private Health targetHealth;
+        private Weapon currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
@@ -29,7 +30,7 @@ namespace RPG.Combat {
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
 
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }        
 
         void Update() {
@@ -49,9 +50,10 @@ namespace RPG.Combat {
             }
         }
 
-        private void SpawnWeapon() {
+        public void EquipWeapon(Weapon weapon) {
             if (weapon == null) return;
 
+            currentWeapon = weapon;
             weapon.Spawn(handTransform, animator);
         }
 
@@ -71,14 +73,14 @@ namespace RPG.Combat {
 
         // Handle attack animation event Hit
         void Hit() {
-            targetHealth?.TakeDamage(weapon.Damage);
+            targetHealth?.TakeDamage(currentWeapon.Damage);
         }
 
         private bool IsInAttackRange() {
             float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
-            if (charToTargetDistance > weapon.Range) {
+            if (charToTargetDistance > currentWeapon.Range) {
                 return false;
             } else {
                 return true;
