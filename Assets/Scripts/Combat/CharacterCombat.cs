@@ -74,7 +74,18 @@ namespace RPG.Combat {
 
         // Handle attack animation event Hit
         void Hit() {
-            targetHealth?.TakeDamage(currentWeapon.Damage);
+            if (targetHealth == null) return;
+
+            if (currentWeapon.HasProjectile) {
+                currentWeapon.LaunchProjectile(leftHandTransform, rightHandTransform, targetHealth);
+            } else {
+                targetHealth?.TakeDamage(currentWeapon.Damage);
+            }
+        }
+
+        // Handle attack animation event called Shoot (bow)
+        void Shoot() {
+            Hit();
         }
 
         private bool IsInAttackRange() {

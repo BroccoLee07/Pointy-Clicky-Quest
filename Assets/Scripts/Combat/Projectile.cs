@@ -1,37 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using RPG.Core;
 using UnityEngine;
 
 namespace RPG.Combat {
     public class Projectile : MonoBehaviour {
         [SerializeField] private float speed = 5f;
-        [SerializeField] private Transform target;
+        private Health target;
 
-        void Start() {
-            // ! For testing projectile movement
-            StartCoroutine(MoveTo(target));
-        }
-        public IEnumerator MoveTo(Transform target) {
-            if (target == null) yield break;
+        // Property
+        public Health Target { get => target; set => target = value; }        
+
+        void Update() {
+            if (target == null) return;
 
             Vector3 targetPos = GetAimLocation(target);
-            // Debug.Log($"targetPos: {targetPos}");
+            Debug.Log($"targetPos: {targetPos}");
 
             transform.LookAt(targetPos);
-            while (Vector3.Distance(transform.position, targetPos) > 0.1f) {
-                transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                yield return null;
-            }            
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
-        private Vector3 GetAimLocation(Transform target) {
+        private Vector3 GetAimLocation(Health target) {
             CapsuleCollider targetCapsuleCollider = target.GetComponent<CapsuleCollider>();
             if (targetCapsuleCollider == null) {
-                return target.position;
+                return target.transform.position;
             }
-            
+
             // Get position of target and random y position of target's upper half and below top of head
-            return target.position + Vector3.up * ((targetCapsuleCollider.height / 2) + Random.Range(0, targetCapsuleCollider.height / 3));
+            return target.transform.position + Vector3.up * ((targetCapsuleCollider.height / 2) + Random.Range(0, targetCapsuleCollider.height / 3));
         }
     }
 }

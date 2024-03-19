@@ -1,3 +1,5 @@
+using System.Collections;
+using RPG.Core;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -9,9 +11,14 @@ namespace RPG.Combat {
         [SerializeField] private GameObject equippedWeaponPrefab = null;
         [SerializeField] private AnimatorOverrideController animatorOverride = null;
         [SerializeField] private bool isRightHanded = true;
+        // Can be null if weapon doesn't use Projectiles
+        [SerializeField] private Projectile projectile = null;
 
+
+        // Properties
         public float Damage { get => damage; }
         public float Range { get => range; }
+        public bool HasProjectile { get => projectile != null; }
 
         public void Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
             // Check for animator first since weapon can be null if unarmed
@@ -21,15 +28,25 @@ namespace RPG.Combat {
 
             // If unarmed, nothing to instantiate
             if (equippedWeaponPrefab == null || (rightHandTransform == null && leftHandTransform == null)) return;
-            Transform handTransform;
+            Transform handTransform = GetHandTransform(leftHandTransform, rightHandTransform);
 
+            Instantiate(equippedWeaponPrefab, handTransform);
+        }
+
+        private Transform GetHandTransform(Transform leftHandTransform, Transform rightHandTransform) {
+            Transform handTransform;
             if (isRightHanded) {
                 handTransform = rightHandTransform;
             } else {
                 handTransform = leftHandTransform;
             }
 
-            Instantiate(equippedWeaponPrefab, handTransform);   
+            return handTransform;
+        }
+
+        public void LaunchProjectile(Transform leftHandTransform, Transform rightHandTransform, Health targetHealth) {
+            Projectile newProjectile = Instantiate(projectile, GetHandTransform(leftHandTransform, rightHandTransform).position, Quaternion.identity);
+            newProjectile.Target = targetHealth;
         }
     }
 }
