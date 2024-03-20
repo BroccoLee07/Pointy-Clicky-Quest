@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 8361838163603030118}
   - component: {fileID: 2904233554790425108}
   m_Layer: 0
-  m_Name: ArrowProjectile
+  m_Name: Fireball Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5195d6bd11fa834ca5de0d48f46f186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 8
+  isHoming: 1
 --- !u!65 &2904233554790425108
 BoxCollider:
   m_ObjectHideFlags: 0
