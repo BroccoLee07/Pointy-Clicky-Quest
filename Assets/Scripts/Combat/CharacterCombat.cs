@@ -108,7 +108,7 @@ namespace RPG.Combat {
         }
 
         public void Attack(GameObject combatTarget) {
-            Debug.Log($"Fighter is attacking!");
+            // Debug.Log($"Fighter is attacking!");
             actionScheduler.StartAction(this);
             targetHealth = combatTarget.GetComponent<Health>();            
         }
