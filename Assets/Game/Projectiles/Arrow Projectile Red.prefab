@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3068686299918694635, guid: 95e50adba0854224e84121907ef52ac2, type: 3}
       propertyPath: m_Name
-      value: ArrowProjectileRed
+      value: Arrow Projectile Red
       objectReference: {fileID: 0}
     - target: {fileID: 3610702197546817450, guid: 95e50adba0854224e84121907ef52ac2, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime0
@@ -79,5 +79,9 @@ PrefabInstance:
       propertyPath: isHoming
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8361838163603030118, guid: 95e50adba0854224e84121907ef52ac2, type: 3}
+      propertyPath: hitEffect
+      value: 
+      objectReference: {fileID: 3872490801355805544, guid: 9c8b95021af22aa4bbd57edc50a4f79e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95e50adba0854224e84121907ef52ac2, type: 3}

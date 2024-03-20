@@ -7,6 +7,7 @@ namespace RPG.Combat {
     public class Projectile : MonoBehaviour {
         [SerializeField] private float speed = 5f;
         [SerializeField] private bool isHoming = false;
+        [SerializeField] private GameObject hitEffect;
         private Health target;
         private float weaponDamage = 0;        
 
@@ -53,6 +54,12 @@ namespace RPG.Combat {
             // In this case, the projectile contains the weapon data including damage
             // target.TakeDamage(weaponDamage + damage);
             target.TakeDamage(weaponDamage);
+
+            if (hitEffect != null) {
+                // Instantiate hit effect where projectile was last
+                Instantiate(hitEffect, transform.position, transform.rotation);
+            }            
+
             Destroy(gameObject);
         }
     }
