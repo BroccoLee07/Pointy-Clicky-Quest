@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using RPG.Core;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace RPG.Combat {
         // Can be null if weapon doesn't use Projectiles
         [SerializeField] private Projectile projectile = null;
 
+        public const string weaponName = "Weapon";
 
         // Properties
         public float Damage { get => damage; }
@@ -21,6 +23,8 @@ namespace RPG.Combat {
         public bool HasProjectile { get => projectile != null; }
 
         public void Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
+            DestroyOldWeapon(leftHandTransform, rightHandTransform);
+
             // Check for animator first since weapon can be null if unarmed
             if (animator == null || animatorOverride == null) return;
             // Override character animation with appropriate animation for the weapon
@@ -30,7 +34,21 @@ namespace RPG.Combat {
             if (equippedWeaponPrefab == null || (rightHandTransform == null && leftHandTransform == null)) return;
             Transform handTransform = GetHandTransform(leftHandTransform, rightHandTransform);
 
-            Instantiate(equippedWeaponPrefab, handTransform);
+            GameObject weapon = Instantiate(equippedWeaponPrefab, handTransform);
+            weapon.name = weaponName;
+        }
+
+        private void DestroyOldWeapon(Transform leftHandTransform, Transform rightHandTransform) {
+            Transform oldWeapon = rightHandTransform.Find(weaponName);
+            if (oldWeapon == null) {
+                oldWeapon = leftHandTransform.Find(weaponName);
+                // No weapon found so nothing to destroy
+                if (oldWeapon == null) return;
+            }
+
+            // Rename first to make sure new weapon is not destroyed
+            oldWeapon.name = "OldWeapon";
+            Destroy(oldWeapon.gameObject);
         }
 
         private Transform GetHandTransform(Transform leftHandTransform, Transform rightHandTransform) {
