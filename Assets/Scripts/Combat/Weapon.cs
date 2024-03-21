@@ -28,11 +28,11 @@ namespace RPG.Combat {
             if (animator == null) return;
 
             AnimatorOverrideController animatorOverrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
-            // Check for animator override since unarmed might have this null or certain weapon would like to use the default
+            // If animatorOverride is set, update animation with appropriate weapon's animation
             if (animatorOverride != null) {
                 // Override character animation with appropriate animation for the weapon
                 animator.runtimeAnimatorController = animatorOverride;
-            // AND check if current animator is not the default
+            // If animatorOverride is set (for unarmed or if default should be used)
             } else if (animatorOverrideController != null) {
                 // Set current animator to the default stored in the runtimeAnimatorController
                 animator.runtimeAnimatorController = animatorOverrideController.runtimeAnimatorController;                
