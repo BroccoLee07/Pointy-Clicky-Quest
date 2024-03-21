@@ -13,7 +13,8 @@ namespace RPG.Combat {
         // Set to null for variables related to weapons for the case where character is unarmed
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Transform rightHandTransform = null;
-        [SerializeField] Weapon defaultWeapon = null;
+        [SerializeField] private Weapon defaultWeapon = null;
+        // [SerializeField] private string defaultWeaponName = "Unarmed";
 
         // Dependency
         private CharacterMovement characterMovement;
@@ -31,7 +32,8 @@ namespace RPG.Combat {
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
 
-            EquipWeapon(defaultWeapon);
+            Weapon weapon = Resources.Load<Weapon>(defaultWeapon.name);
+            EquipWeapon(weapon);
         }        
 
         void Update() {
