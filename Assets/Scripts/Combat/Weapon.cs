@@ -25,10 +25,18 @@ namespace RPG.Combat {
         public void Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
             DestroyOldWeapon(leftHandTransform, rightHandTransform);
 
-            // Check for animator first since weapon can be null if unarmed
-            if (animator == null || animatorOverride == null) return;
-            // Override character animation with appropriate animation for the weapon
-            animator.runtimeAnimatorController = animatorOverride;
+            if (animator == null) return;
+
+            AnimatorOverrideController animatorOverrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+            // Check for animator override since unarmed might have this null or certain weapon would like to use the default
+            if (animatorOverride != null) {
+                // Override character animation with appropriate animation for the weapon
+                animator.runtimeAnimatorController = animatorOverride;
+            // AND check if current animator is not the default
+            } else if (animatorOverrideController != null) {
+                // Set current animator to the default stored in the runtimeAnimatorController
+                animator.runtimeAnimatorController = animatorOverrideController.runtimeAnimatorController;                
+            }            
 
             // If unarmed, nothing to instantiate
             if (equippedWeaponPrefab == null || (rightHandTransform == null && leftHandTransform == null)) return;
