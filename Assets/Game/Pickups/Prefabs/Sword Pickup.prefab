@@ -75,6 +75,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword Pickup
       objectReference: {fileID: 0}
+    - target: {fileID: 5749342661673683909, guid: ebdd0de419c11a940990bc1e2a7cbe12, type: 3}
+      propertyPath: pickup
+      value: 
+      objectReference: {fileID: 6534026018237323049}
+    - target: {fileID: 5749342661673683909, guid: ebdd0de419c11a940990bc1e2a7cbe12, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: b664b20b392aab34fb400115e7afdfa0, type: 2}
+    - target: {fileID: 5749342661673683909, guid: ebdd0de419c11a940990bc1e2a7cbe12, type: 3}
+      propertyPath: pickupChild
+      value: 
+      objectReference: {fileID: 6534026018237323049}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebdd0de419c11a940990bc1e2a7cbe12, type: 3}
 --- !u!4 &5483403045471984423 stripped
@@ -139,3 +151,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13af847dfa6dbe844ba4b7c902f98f67, type: 3}
+--- !u!1 &6534026018237323049 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 181534, guid: 13af847dfa6dbe844ba4b7c902f98f67, type: 3}
+  m_PrefabInstance: {fileID: 6534026018237239863}
+  m_PrefabAsset: {fileID: 0}
