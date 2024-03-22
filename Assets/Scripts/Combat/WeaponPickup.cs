@@ -19,7 +19,6 @@ namespace RPG.Combat {
         private void OnTriggerEnter(Collider other) {
             if (other.tag == "Player") {
                 other.GetComponent<CharacterCombat>().EquipWeapon(weapon);
-                // Destroy(gameObject);
                 StartCoroutine(HideForSeconds(respawnTime));
             }
         }
@@ -35,11 +34,6 @@ namespace RPG.Combat {
 
             pickupCollider.enabled = isVisible;
             pickupChild.SetActive(isVisible);
-
-        // Other implementation is to loop through all children to disable and hide the pickup
-        //     foreach (Transform child in transform) {
-        //         child.gameObject.SetActive(isVisible);
-        //     }
         }
     }
 }
