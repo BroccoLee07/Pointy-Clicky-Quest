@@ -1,22 +1,27 @@
 using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
-    public class CharacterCombat : MonoBehaviour, IAction {
+    public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable {
 
-        [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private float weaponDamage = 5f;
+        // Set to null for variables related to weapons for the case where character is unarmed
+        [SerializeField] private Transform leftHandTransform = null;
+        [SerializeField] private Transform rightHandTransform = null;
+        [SerializeField] private Weapon defaultWeapon = null;
 
         // Dependency
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
         private Animator animator;
         private Health targetHealth;
+        private Weapon currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
@@ -26,7 +31,11 @@ namespace RPG.Combat {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
-        }
+
+            if (currentWeapon == null) {
+                EquipWeapon(defaultWeapon);
+            }
+        }        
 
         void Update() {
             // Will keep increasing when no attack
@@ -45,6 +54,15 @@ namespace RPG.Combat {
             }
         }
 
+        public void EquipWeapon(Weapon weapon) {
+            Debug.Log($"Equipping weapon {weapon.name}");
+            if (weapon == null) return;
+
+            currentWeapon = weapon;
+            Debug.Log($"Set as current weapon");
+            weapon.Spawn(leftHandTransform, rightHandTransform, animator);
+        }
+
         private void AttackBehaviour() {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
@@ -61,14 +79,25 @@ namespace RPG.Combat {
 
         // Handle attack animation event Hit
         void Hit() {
-            targetHealth?.TakeDamage(weaponDamage);
+            if (targetHealth == null) return;
+
+            if (currentWeapon.HasProjectile) {
+                currentWeapon.LaunchProjectile(leftHandTransform, rightHandTransform, targetHealth);
+            } else {
+                targetHealth?.TakeDamage(currentWeapon.Damage);
+            }
+        }
+
+        // Handle attack animation event called Shoot (bow)
+        void Shoot() {
+            Hit();
         }
 
         private bool IsInAttackRange() {
             float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
-            if (charToTargetDistance > weaponRange) {
+            if (charToTargetDistance > currentWeapon.Range) {
                 return false;
             } else {
                 return true;
@@ -84,7 +113,7 @@ namespace RPG.Combat {
         }
 
         public void Attack(GameObject combatTarget) {
-            Debug.Log($"Fighter is attacking!");
+            // Debug.Log($"Fighter is attacking!");
             actionScheduler.StartAction(this);
             targetHealth = combatTarget.GetComponent<Health>();            
         }
@@ -98,6 +127,16 @@ namespace RPG.Combat {
         private void StopAttack() {
             animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
             animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
+        }
+
+        public JToken CaptureAsJToken() {
+            return JToken.FromObject(currentWeapon.name);
+        }
+
+        public void RestoreFromJToken(JToken state) {
+            string weaponName = state.ToObject<string>();
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
         }
     }
 }
