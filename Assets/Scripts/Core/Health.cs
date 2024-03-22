@@ -36,16 +36,6 @@ namespace RPG.Core {
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
-        public object CaptureState() {
-            return healthPoints;
-        }
-
-        public void RestoreState(object state) {
-            this.healthPoints = (float)state;
-
-            UpdateHealthState();
-        }
-
         public JToken CaptureAsJToken() {
             return JToken.FromObject(healthPoints);
         }

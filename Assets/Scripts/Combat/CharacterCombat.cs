@@ -1,27 +1,28 @@
 using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
-using System;
+using RPG.Saving;
+using Newtonsoft.Json.Linq;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
-    public class CharacterCombat : MonoBehaviour, IAction {
+    public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable {
 
         [SerializeField] private float timeBetweenAttacks = 1f;
         // Set to null for variables related to weapons for the case where character is unarmed
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
-        // [SerializeField] private string defaultWeaponName = "Unarmed";
 
         // Dependency
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
         private Animator animator;
         private Health targetHealth;
-        private Weapon currentWeapon;
+        // NOTE: Change to private after testing
+        public Weapon currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
@@ -32,8 +33,9 @@ namespace RPG.Combat {
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
 
-            Weapon weapon = Resources.Load<Weapon>(defaultWeapon.name);
-            EquipWeapon(weapon);
+            if (currentWeapon == null) {
+                EquipWeapon(defaultWeapon);
+            }
         }        
 
         void Update() {
@@ -54,9 +56,11 @@ namespace RPG.Combat {
         }
 
         public void EquipWeapon(Weapon weapon) {
+            Debug.Log($"Equipping weapon {weapon.name}");
             if (weapon == null) return;
 
             currentWeapon = weapon;
+            Debug.Log($"Set as current weapon");
             weapon.Spawn(leftHandTransform, rightHandTransform, animator);
         }
 
@@ -124,6 +128,16 @@ namespace RPG.Combat {
         private void StopAttack() {
             animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
             animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
+        }
+
+        public JToken CaptureAsJToken() {
+            return JToken.FromObject(currentWeapon.name);
+        }
+
+        public void RestoreFromJToken(JToken state) {
+            string weaponName = state.ToObject<string>();
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
         }
     }
 }

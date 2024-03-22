@@ -23,27 +23,28 @@ namespace RPG.Combat {
         public bool HasProjectile { get => projectile != null; }
 
         public void Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
+            Debug.Log($"Spawning weapon");
             DestroyOldWeapon(leftHandTransform, rightHandTransform);
 
-            if (animator == null) return;
+            // Check if weapon to spawn has an equipped look (unarmed and fireball has no equipment)
+            if (equippedWeaponPrefab != null) {
+                Transform handTransform = GetHandTransform(leftHandTransform, rightHandTransform);
+                GameObject weapon = Instantiate(equippedWeaponPrefab, handTransform);
+                weapon.name = weaponName;
+            }
 
+            // Make sure characer's animator exists
+            if (animator == null) return;
+            
             AnimatorOverrideController animatorOverrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             // If animatorOverride is set, update animation with appropriate weapon's animation
             if (animatorOverride != null) {
-                // Override character animation with appropriate animation for the weapon
                 animator.runtimeAnimatorController = animatorOverride;
             // If animatorOverride is set (for unarmed or if default should be used)
             } else if (animatorOverrideController != null) {
                 // Set current animator to the default stored in the runtimeAnimatorController
                 animator.runtimeAnimatorController = animatorOverrideController.runtimeAnimatorController;                
-            }            
-
-            // If unarmed, nothing to instantiate
-            if (equippedWeaponPrefab == null || (rightHandTransform == null && leftHandTransform == null)) return;
-            Transform handTransform = GetHandTransform(leftHandTransform, rightHandTransform);
-
-            GameObject weapon = Instantiate(equippedWeaponPrefab, handTransform);
-            weapon.name = weaponName;
+            }
         }
 
         private void DestroyOldWeapon(Transform leftHandTransform, Transform rightHandTransform) {
