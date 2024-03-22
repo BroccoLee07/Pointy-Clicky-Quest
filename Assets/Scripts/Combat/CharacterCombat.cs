@@ -21,8 +21,7 @@ namespace RPG.Combat {
         private ActionScheduler actionScheduler;
         private Animator animator;
         private Health targetHealth;
-        // NOTE: Change to private after testing
-        public Weapon currentWeapon;
+        private Weapon currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
