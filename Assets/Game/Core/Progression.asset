@@ -20,12 +20,7 @@ MonoBehaviour:
     - 310
     - 350
     - 400
-    experienceReward:
-    - 10
-    - 20
-    - 30
-    - 40
-    - 50
+    experienceReward: []
   - characterClass: 1
     health:
     - 40
