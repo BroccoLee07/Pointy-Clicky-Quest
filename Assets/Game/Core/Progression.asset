@@ -29,9 +29,9 @@ MonoBehaviour:
     - 100
   - characterClass: 2
     health:
-    - 40
-    - 45
-    - 55
+    - 35
+    - 48
+    - 56
     - 75
     - 80
   - characterClass: 3

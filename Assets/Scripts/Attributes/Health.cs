@@ -1,18 +1,27 @@
 using Newtonsoft.Json.Linq;
+using RPG.Core;
 using RPG.Saving;
+using RPG.Stats;
 using UnityEngine;
 
-namespace RPG.Core {
+namespace RPG.Attributes {
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(BaseStats))]
     public class Health : MonoBehaviour, IJsonSaveable {
         [SerializeField] private float healthPoints = 100f;
 
         private bool isDead = false;
+        private BaseStats baseStats;
 
         private const string ANIMATOR_DIE_TRIGGER = "die";
 
         public bool IsDead { get => isDead; }
+
+        void Start() {
+            baseStats = GetComponent<BaseStats>();
+            healthPoints = baseStats.GetHealth();
+        }
 
         public void TakeDamage(float damage) {
             if (IsDead) return;

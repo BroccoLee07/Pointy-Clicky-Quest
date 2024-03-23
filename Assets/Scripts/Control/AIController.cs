@@ -1,13 +1,16 @@
+using RPG.Attributes;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
+using RPG.Stats;
 using UnityEngine;
 
 namespace RPG.Control {
     [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(CharacterCombat))]
     [RequireComponent(typeof(ActionScheduler))]
-    [RequireComponent(typeof(Health))]    
+    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(BaseStats))]
     public class AIController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
         [SerializeField] private float suspicionTime = 5f;

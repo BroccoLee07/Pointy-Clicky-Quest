@@ -2,14 +2,13 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
 using RPG.Saving;
-using RPG.Stats;
 using Newtonsoft.Json.Linq;
+using RPG.Attributes;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(BaseStats))]
     public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable {
 
         [SerializeField] private float timeBetweenAttacks = 1f;

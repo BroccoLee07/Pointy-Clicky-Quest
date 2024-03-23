@@ -6,10 +6,20 @@ namespace RPG.Stats {
     public class Progression : ScriptableObject {
         [SerializeField] ProgressionCharacterClass[] characterClasses;
 
+        public float GetHealth(CharacterClass characterClass, int level) {
+            foreach (ProgressionCharacterClass progCharClass in characterClasses) {
+                if (progCharClass.characterClass != characterClass) continue;
+
+                return progCharClass.health[level - 1];
+            }
+
+            return 0;
+        }
+
         [Serializable]
         class ProgressionCharacterClass {
-            [SerializeField] private CharacterClass characterClass;
-            [SerializeField] private float[] health;
+            public CharacterClass characterClass;
+            public float[] health;
         }
     }
 }

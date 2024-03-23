@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using RPG.Core;
+using RPG.Attributes;
 using UnityEngine;
 
 namespace RPG.Combat {
