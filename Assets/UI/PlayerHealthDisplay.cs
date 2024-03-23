@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 
 namespace RPG.UI {
-    public class HealthDisplay : MonoBehaviour {
+    public class PlayerHealthDisplay : MonoBehaviour {
         [SerializeField] TextMeshProUGUI healthValue;
         private Health health;
 

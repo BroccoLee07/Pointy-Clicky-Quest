@@ -64,6 +64,10 @@ namespace RPG.Combat {
             weapon.Spawn(leftHandTransform, rightHandTransform, animator);
         }
 
+        public Health GetTargetHealth() {
+            return targetHealth;
+        }
+
         private void AttackBehaviour() {
             if (timeSinceLastAttack <= timeBetweenAttacks) return;
 
