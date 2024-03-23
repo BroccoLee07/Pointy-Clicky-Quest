@@ -7,7 +7,6 @@ namespace RPG.Stats {
         [Range(1, 99)]
         [SerializeField] private int level = 1;
         [SerializeField] private CharacterClass characterClass;
-        // [SerializeField] private Health health;
-        // [SerializeField] private float attackDamage;        
+        [SerializeField] private Progression progression;      
     }
 }
