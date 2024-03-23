@@ -33,6 +33,10 @@ namespace RPG.Attributes {
             UpdateHealthState();
         }
 
+        public float GetPercentage() {
+            return 100 * (healthPoints / baseStats.GetHealth());
+        }
+
         private void UpdateHealthState() {
             if (healthPoints <= 0) {
                 isDead = true;
