@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json.Linq;
 using RPG.Core;
 using RPG.Saving;
@@ -23,7 +24,7 @@ namespace RPG.Attributes {
             healthPoints = baseStats.GetHealth();
         }
 
-        public void TakeDamage(float damage) {
+        public void TakeDamage(GameObject attackInitiator, float damage) {
             if (IsDead) return;
 
             // To avoid the health going below 0
@@ -31,6 +32,10 @@ namespace RPG.Attributes {
             // Debug.Log($"Took damage! Health is now {health}");
 
             UpdateHealthState();
+
+            if (isDead) {
+                AwardExperience(attackInitiator);
+            }
         }
 
         public float GetPercentage() {
@@ -42,6 +47,13 @@ namespace RPG.Attributes {
                 isDead = true;
                 Die();                
             }
+        }
+
+        private void AwardExperience(GameObject attackInitiator) {
+            Experience exp = attackInitiator.GetComponent<Experience>();
+            if (exp == null) return;
+
+            exp.GainExperience(baseStats.GetExperienceReward());
         }
 
         private void Die() {

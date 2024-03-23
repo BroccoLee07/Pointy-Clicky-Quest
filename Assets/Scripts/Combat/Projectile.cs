@@ -17,27 +17,29 @@ namespace RPG.Combat {
         [SerializeField] private GameObject[] destroyOnHitObjects;
         [SerializeField] private float lifetimeAfterImpact = 0.2f;
 
-        private Health target;
+        private Health targetHealth;
+        private GameObject attackInitiator;
         private float weaponDamage = 0;        
 
-        public void Initialize(Health targetHealth, float weaponDamage) {
-            target = targetHealth;
+        public void Initialize(GameObject attackInitiator, Health targetHealth, float weaponDamage) {
+            this.attackInitiator = attackInitiator;
+            this.targetHealth = targetHealth;
             this.weaponDamage = weaponDamage;
 
             if (!isHoming) {
                 // Set target once here for non-homing behaviour
-                transform.LookAt(GetAimLocation(target));
+                transform.LookAt(GetAimLocation(targetHealth));
             }
 
             Destroy(gameObject, maxLifetime);
         }
 
         void Update() {
-            if (target == null) return;
+            if (targetHealth == null) return;
 
             // Set projectile's target to update on every frame and have homing behaviour
-            if (isHoming && !target.IsDead) {
-                transform.LookAt(GetAimLocation(target));
+            if (isHoming && !targetHealth.IsDead) {
+                transform.LookAt(GetAimLocation(targetHealth));
             }
 
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
@@ -54,13 +56,13 @@ namespace RPG.Combat {
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (other.GetComponent<Health>() != target) return;
+            if (other.GetComponent<Health>() != targetHealth) return;
 
-            if (target.IsDead) {
+            if (targetHealth.IsDead) {
                 return;
             }
 
-            target.TakeDamage(weaponDamage);
+            targetHealth.TakeDamage(attackInitiator, weaponDamage);
             // Set speed to 0 to keep it from moving forward
             speed = 0;
 

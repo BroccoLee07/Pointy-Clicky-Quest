@@ -87,9 +87,9 @@ namespace RPG.Combat {
             if (targetHealth == null) return;
 
             if (currentWeapon.HasProjectile) {
-                currentWeapon.LaunchProjectile(leftHandTransform, rightHandTransform, targetHealth);
+                currentWeapon.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth);
             } else {
-                targetHealth?.TakeDamage(currentWeapon.Damage);
+                targetHealth?.TakeDamage(gameObject, currentWeapon.Damage);
             }
         }
 

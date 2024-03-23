@@ -16,10 +16,21 @@ namespace RPG.Stats {
             return 0;
         }
 
+        public float GetExperienceReward(CharacterClass characterClass, int level) {
+            foreach (ProgressionCharacterClass progCharClass in characterClasses) {
+                if (progCharClass.characterClass != characterClass) continue;
+
+                return progCharClass.experienceReward[level - 1];
+            }
+
+            return 0;
+        }
+
         [Serializable]
         class ProgressionCharacterClass {
             public CharacterClass characterClass;
             public float[] health;
+            public float[] experienceReward;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace RPG.UI {
         void Update() {
             if (playerCharCombat.GetTargetHealth() == null) {
                 healthValue.text = "N/A";
+                return;
             } else {
                 Health targetHealth = playerCharCombat.GetTargetHealth();
                 if (healthValue.text != String.Format("{0:0.00}%", targetHealth.GetPercentage())) {
