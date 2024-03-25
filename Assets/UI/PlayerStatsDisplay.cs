@@ -20,15 +20,25 @@ namespace RPG.UI {
         }
 
         void Update() {
+            UpdateHealthDisplay();
+            UpdateExperienceDisplay();
+            UpdateLevelDisplay();            
+        }
+
+        private void UpdateHealthDisplay() {
             if (healthValue.text != String.Format("{0:0.00}%", health.GetPercentage())) {
                 // Debug.Log($"health percent: {health.GetPercentage()}");
                 healthValue.text = String.Format("{0:0.00}%", health.GetPercentage());                
             }
+        }
 
+        private void UpdateExperienceDisplay() {
             if (expValue.text != experience.ExperiencePoints.ToString()){
                 expValue.text = experience.ExperiencePoints.ToString();
             }
+        }
 
+        private void UpdateLevelDisplay() {
             if (Int32.Parse(levelValue.text) != baseStats.GetLevel()) {
                 levelValue.text = baseStats.GetLevel().ToString();
             }
