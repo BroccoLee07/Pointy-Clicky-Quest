@@ -7,12 +7,8 @@ namespace RPG.Stats {
         [SerializeField] private CharacterClass characterClass;
         [SerializeField] private Progression progression;
 
-        public float GetHealth() {
-            return progression.GetHealth(characterClass, level);
-        }
-
-        public float GetExperienceReward() {
-            return progression.GetExperienceReward(characterClass, level);
+        public float GetStat(Stat stat) {
+            return progression.GetStat(stat, characterClass, level);
         }
     }
 }
