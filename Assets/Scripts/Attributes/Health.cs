@@ -10,7 +10,7 @@ namespace RPG.Attributes {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(BaseStats))]
     public class Health : MonoBehaviour, IJsonSaveable {
-        [SerializeField] private float healthPoints = 100f;
+        [SerializeField] private float healthPoints = -1f;
 
         private bool isDead = false;
         private BaseStats baseStats;
@@ -21,7 +21,10 @@ namespace RPG.Attributes {
 
         void Start() {
             baseStats = GetComponent<BaseStats>();
-            healthPoints = baseStats.GetStat(Stat.Health);
+            // Value not restored from save state if any
+            if (healthPoints < 0) {
+                healthPoints = baseStats.GetStat(Stat.Health);
+            }            
         }
 
         public void TakeDamage(GameObject attackInitiator, float damage) {

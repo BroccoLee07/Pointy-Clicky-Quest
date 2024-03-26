@@ -31,10 +31,6 @@ namespace RPG.Stats {
                 }
             }
 
-            if (gameObject.tag == "Player") {
-                print(currentLevel);
-            }
-
             return currentLevel;
         }
     }
