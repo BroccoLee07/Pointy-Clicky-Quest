@@ -5,6 +5,7 @@ namespace RPG.Combat {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
     public class Weapon : ScriptableObject {        
         [SerializeField] private float damage = 5f;
+        [SerializeField] private float percentageBonusDamage = 0f;
         [SerializeField] private float range = 2f;
         // Can be null for unarmed
         [SerializeField] private GameObject equippedWeaponPrefab = null;
@@ -17,6 +18,7 @@ namespace RPG.Combat {
 
         // Properties
         public float Damage { get => damage; }
+        public float PercentageBonusDamage { get => percentageBonusDamage; }
         public float Range { get => range; }
         public bool HasProjectile { get => projectile != null; }
 

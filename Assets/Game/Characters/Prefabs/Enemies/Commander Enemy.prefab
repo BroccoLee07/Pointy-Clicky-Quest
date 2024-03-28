@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1560523187222879061
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3340246135445661723, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: characterClass
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396394665852974868, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3652915578330691842, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3652915578330691842, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: healthPoints
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -35.705
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 51.293137
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8070361
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5905021
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 72.385
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104340, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104424, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_Name
+      value: Commander Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312070104424, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026112312133919787, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_Speed
+      value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856976182597906467, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: weaponDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191440014043546455, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: patrolPath
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7057025615557053612, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 77d0a035-6c83-4ad7-8d92-e517a27e9559
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287402416454312704, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 01b2546c969fe814794af634cb4534f4, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
