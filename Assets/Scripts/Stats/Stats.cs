@@ -6,7 +6,8 @@ namespace RPG.Stats {
     public enum Stat {
         Health,
         ExperienceReward,
-        ExperienceToNextLevel
+        ExperienceToNextLevel,
+        Damage
     }
 }
 

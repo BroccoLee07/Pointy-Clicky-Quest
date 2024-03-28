@@ -19,8 +19,8 @@ namespace RPG.UI {
                 return;
             } else {
                 Health targetHealth = playerCharCombat.GetTargetHealth();
-                if (healthValue.text != String.Format("{0:0.00}%", targetHealth.GetPercentage())) {
-                    healthValue.text = String.Format("{0:0.00}%", targetHealth.GetPercentage());
+                if (healthValue.text != String.Format("{0:0.0} / {1:0.0}", targetHealth.CurrentHealthPoints, targetHealth.MaxHealthPoints)) {
+                    healthValue.text = String.Format("{0:0.0} / {1:0.0}", targetHealth.CurrentHealthPoints, targetHealth.MaxHealthPoints);
                 }
             }
         }

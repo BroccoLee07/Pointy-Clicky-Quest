@@ -20,7 +20,10 @@ namespace RPG.Attributes {
 
         private const string ANIMATOR_DIE_TRIGGER = "die";
 
+        // Property
         public bool IsDead { get => isDead; }
+        public float CurrentHealthPoints { get => healthPoints; }
+        public float MaxHealthPoints { get => baseStats.GetStat(Stat.Health); }
 
         void Start() {
             baseStats = GetComponent<BaseStats>();
@@ -38,6 +41,7 @@ namespace RPG.Attributes {
         public void TakeDamage(GameObject attackInitiator, float damage) {
             if (IsDead) return;
 
+            Debug.Log($"{gameObject.name} took damage: {damage}");
             // To avoid the health going below 0
             healthPoints = Mathf.Max(healthPoints - damage, 0);
             // Debug.Log($"Took damage! Health is now {health}");
@@ -54,9 +58,6 @@ namespace RPG.Attributes {
         }
 
         private void LevelUpRegenerateHealth() {
-            // float regenHealthPoints = baseStats.GetStat(Stat.Health) * (levelUpRegenerationPercentage / 100);
-            // healthPoints = Mathf.Max(healthPoints, regenHealthPoints);
-
             // Heal up a percentage of new max health on level up
             healthPoints += baseStats.GetStat(Stat.Health) * (levelUpRegenerationPercentage / 100);
         }

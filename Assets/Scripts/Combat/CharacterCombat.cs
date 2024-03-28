@@ -4,6 +4,7 @@ using RPG.Core;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
 using RPG.Attributes;
+using RPG.Stats;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
@@ -21,6 +22,7 @@ namespace RPG.Combat {
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
         private Animator animator;
+        private BaseStats baseStats;
         private Health targetHealth;
         private Weapon currentWeapon;
 
@@ -32,6 +34,7 @@ namespace RPG.Combat {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
+            baseStats = GetComponent<BaseStats>();
 
             if (currentWeapon == null) {
                 EquipWeapon(defaultWeapon);
@@ -86,10 +89,11 @@ namespace RPG.Combat {
         void Hit() {
             if (targetHealth == null) return;
 
+            float damage = baseStats.GetStat(Stat.Damage);
             if (currentWeapon.HasProjectile) {
-                currentWeapon.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth);
+                currentWeapon.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth, damage);
             } else {
-                targetHealth?.TakeDamage(gameObject, currentWeapon.Damage);
+                targetHealth?.TakeDamage(gameObject, damage);
             }
         }
 
