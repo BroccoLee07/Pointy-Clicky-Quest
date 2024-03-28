@@ -10,6 +10,9 @@ namespace RPG.Attributes {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(BaseStats))]
     public class Health : MonoBehaviour, IJsonSaveable {
+
+        [Tooltip("How much health is regenerated on level up")]
+        [SerializeField] private float levelUpRegenerationPercentage = 15;
         [SerializeField] private float healthPoints = -1f;
 
         private bool isDead = false;
@@ -21,6 +24,11 @@ namespace RPG.Attributes {
 
         void Start() {
             baseStats = GetComponent<BaseStats>();
+
+            if(baseStats != null) {
+                baseStats.onLevelUp += LevelUpRegenerateHealth;
+            }
+
             // Value not restored from save state if any
             if (healthPoints < 0) {
                 healthPoints = baseStats.GetStat(Stat.Health);
@@ -43,6 +51,14 @@ namespace RPG.Attributes {
 
         public float GetPercentage() {
             return 100 * (healthPoints / baseStats.GetStat(Stat.Health));
+        }
+
+        private void LevelUpRegenerateHealth() {
+            // float regenHealthPoints = baseStats.GetStat(Stat.Health) * (levelUpRegenerationPercentage / 100);
+            // healthPoints = Mathf.Max(healthPoints, regenHealthPoints);
+
+            // Heal up a percentage of new max health on level up
+            healthPoints += baseStats.GetStat(Stat.Health) * (levelUpRegenerationPercentage / 100);
         }
 
         private void UpdateHealthState() {

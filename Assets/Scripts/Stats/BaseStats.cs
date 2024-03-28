@@ -1,3 +1,4 @@
+using System;
 using RPG.Attributes;
 using UnityEngine;
 
@@ -6,6 +7,10 @@ namespace RPG.Stats {
         [Range(1, 99)]
         [SerializeField] private CharacterClass characterClass;
         [SerializeField] private Progression progression;
+        [SerializeField] private GameObject levelUpEffect;
+        [SerializeField] private GameObject healUpEffect;
+
+        [HideInInspector] public event Action onLevelUp;
 
         private Experience experience;
         private int currentLevel = 0;
@@ -24,7 +29,18 @@ namespace RPG.Stats {
             if (newLevel > currentLevel) {
                 currentLevel = newLevel;
                 print("Level up!");
+
+                PlayLevelUpEffect();
+
+                onLevelUp();
             }
+        }
+
+        private void PlayLevelUpEffect() {
+            // In the current state of the game, levelling up also automatically heals the player
+            // However, I would like to have a separate effect for just levelling and healing to reuse healing for potions
+            Instantiate(levelUpEffect, transform);
+            Instantiate(healUpEffect, transform);
         }
 
         public float GetStat(Stat stat) {
@@ -35,7 +51,7 @@ namespace RPG.Stats {
             if (currentLevel < 1) {
                 currentLevel = CalculateLevel();
             }
-            
+
             return currentLevel;
         }
 
