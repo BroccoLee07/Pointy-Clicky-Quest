@@ -5,12 +5,13 @@ using RPG.Saving;
 using Newtonsoft.Json.Linq;
 using RPG.Attributes;
 using RPG.Stats;
+using System.Collections.Generic;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
-    public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable {
+    public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable, IModifierProvider {
 
         [SerializeField] private float timeBetweenAttacks = 1f;
         // Set to null for variables related to weapons for the case where character is unarmed
@@ -91,8 +92,10 @@ namespace RPG.Combat {
 
             float damage = baseStats.GetStat(Stat.Damage);
             if (currentWeapon.HasProjectile) {
+                // Debug.Log($"Instantiate projectile");
                 currentWeapon.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth, damage);
             } else {
+                // Debug.Log($"Melee On Hit, take damage");
                 targetHealth?.TakeDamage(gameObject, damage);
             }
         }
@@ -133,11 +136,6 @@ namespace RPG.Combat {
             GetComponent<CharacterMovement>().Cancel();
         }
 
-        private void StopAttack() {
-            animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
-            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
-        }
-
         public JToken CaptureAsJToken() {
             return JToken.FromObject(currentWeapon.name);
         }
@@ -146,6 +144,17 @@ namespace RPG.Combat {
             string weaponName = state.ToObject<string>();
             Weapon weapon = Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
+        }
+
+        public IEnumerable<float> GetAdditiveModifier(Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeapon.Damage;
+            }
+        }        
+
+        private void StopAttack() {
+            animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
+            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
         }
     }
 }

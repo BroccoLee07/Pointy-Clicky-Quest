@@ -55,6 +55,7 @@ namespace RPG.Combat {
             return target.transform.position + Vector3.up * ((targetCapsuleCollider.height / 2) + Random.Range(0, targetCapsuleCollider.height / 3));
         }
 
+        // TODO: Fix bug where this gets triggered twice (saw it with fireball)
         private void OnTriggerEnter(Collider other) {
             if (other.GetComponent<Health>() != targetHealth) return;
 
@@ -62,6 +63,7 @@ namespace RPG.Combat {
                 return;
             }
 
+            // Debug.Log($"Projectile On Hit, take damage");
             targetHealth.TakeDamage(attackInitiator, weaponDamage);
             // Set speed to 0 to keep it from moving forward
             speed = 0;

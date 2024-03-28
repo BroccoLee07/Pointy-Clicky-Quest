@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b3a3ded199e1c4f8d21148d1a1447f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelUpRegenerationPercentage: 15
   healthPoints: 100
 --- !u!195 &5758418872532585922
 NavMeshAgent:
@@ -223,3 +224,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterClass: 1
   progression: {fileID: 11400000, guid: 486acf161b027974c9f671bd49b494dd, type: 2}
+  levelUpEffect: {fileID: 0}
+  healUpEffect: {fileID: 0}
