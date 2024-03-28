@@ -12,7 +12,11 @@ namespace RPG.SceneManagement {
 
         const string defaultSaveFile = "gameSave";
 
-        IEnumerator Start() {
+        void Awake() {
+            StartCoroutine(LoadLastScene());
+        }
+        
+        private IEnumerator LoadLastScene() {
             SceneFader fader = FindObjectOfType<SceneFader>();
             savingSystem = GetComponent<JsonSavingSystem>();
 
