@@ -7,11 +7,39 @@ namespace RPG.Stats {
         [SerializeField] private CharacterClass characterClass;
         [SerializeField] private Progression progression;
 
-        public float GetStat(Stat stat) {
-            return progression.GetStat(stat, characterClass, GetLevel());
+        private Experience experience;
+        private int currentLevel = 0;
+
+        void Start() {
+            currentLevel = CalculateLevel();
+            experience = GetComponent<Experience>();
+
+            if (experience != null) {
+                experience.onExperienceGained += UpdateLevel;
+            }
         }
 
-        public int GetLevel() {
+        private void UpdateLevel() {
+            int newLevel = CalculateLevel();
+            if (newLevel > currentLevel) {
+                currentLevel = newLevel;
+                print("Level up!");
+            }
+        }
+
+        public float GetStat(Stat stat) {
+            return progression.GetStat(stat, characterClass, GetCurrentLevel());
+        }
+
+        public int GetCurrentLevel() {
+            if (currentLevel < 1) {
+                currentLevel = CalculateLevel();
+            }
+            
+            return currentLevel;
+        }
+
+        public int CalculateLevel() {
             Experience experience = GetComponent<Experience>();
             // Debug.Log($"Character {characterClass} GetLevel experience: {experience}");
 

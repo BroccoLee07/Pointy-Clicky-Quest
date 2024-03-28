@@ -39,8 +39,8 @@ namespace RPG.UI {
         }
 
         private void UpdateLevelDisplay() {
-            if (Int32.Parse(levelValue.text) != baseStats.GetLevel()) {
-                levelValue.text = baseStats.GetLevel().ToString();
+            if (Int32.Parse(levelValue.text) != baseStats.GetCurrentLevel()) {
+                levelValue.text = baseStats.GetCurrentLevel().ToString();
             }
         }
     }
