@@ -12,7 +12,7 @@ namespace RPG.Combat {
 
         private Collider pickupCollider;
 
-        void Start() {
+        void Awake() {
             pickupCollider = GetComponent<Collider>();
         }
 

@@ -16,7 +16,7 @@ namespace RPG.Control {
 
         // Initialize dependencies here
         // Note: Might be good to use Zenject or some dependency injection framework to handle these
-        void Start() {
+        void Awake() {
             characterMovement = gameObject.GetComponent<CharacterMovement>();
             characterCombat = gameObject.GetComponent<CharacterCombat>();
             health = GetComponent<Health>();

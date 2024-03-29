@@ -17,11 +17,12 @@ namespace RPG.SceneManagement {
         }
         
         private IEnumerator LoadLastScene() {
-            SceneFader fader = FindObjectOfType<SceneFader>();
             savingSystem = GetComponent<JsonSavingSystem>();
-
-            fader.FadeOutImmediate();
             yield return savingSystem.LoadLastScene(defaultSaveFile);
+
+            // Make sure Awakes have happened from yield return LoadLastScene before trying to find the object
+            SceneFader fader = FindObjectOfType<SceneFader>();            
+            fader.FadeOutImmediate();
             yield return fader.FadeIn(fadeInTime);
         }
 

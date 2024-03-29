@@ -1,4 +1,5 @@
 using System;
+using GameDevTV.Utils;
 using RPG.Attributes;
 using UnityEngine;
 
@@ -14,21 +15,34 @@ namespace RPG.Stats {
         [HideInInspector] public event Action onLevelUp;
 
         private Experience experience;
-        private int currentLevel = 0;
+        private LazyValue<int> currentLevel;
+
+        void Awake() {
+            experience = GetComponent<Experience>();
+            currentLevel = new LazyValue<int>(CalculateLevel);
+        }
 
         void Start() {
-            currentLevel = CalculateLevel();
-            experience = GetComponent<Experience>();
+            currentLevel.ForceInit();
+        }
 
+        // Gets called after Awake and before Start
+        private void OnEnable() {
             if (experience != null) {
                 experience.onExperienceGained += UpdateLevel;
+            }            
+        }
+
+        private void OnDisable() {
+            if (experience != null) {
+                experience.onExperienceGained -= UpdateLevel;
             }
         }
 
         private void UpdateLevel() {
             int newLevel = CalculateLevel();
-            if (newLevel > currentLevel) {
-                currentLevel = newLevel;
+            if (newLevel > currentLevel.value) {
+                currentLevel.value = newLevel;
                 print("Level up!");
 
                 PlayLevelUpEffect();
@@ -55,15 +69,12 @@ namespace RPG.Stats {
         }
 
         public int GetCurrentLevel() {
-            if (currentLevel < 1) {
-                currentLevel = CalculateLevel();
-            }
-
-            return currentLevel;
+            return currentLevel.value;
         }
 
         private int CalculateLevel() {
-            Experience experience = GetComponent<Experience>();
+            // TODO: Remove later. Might be unnecessary since this is already called in Awake
+            // Experience experience = GetComponent<Experience>();
             // Debug.Log($"Character {characterClass} GetLevel experience: {experience}");
 
             int currentLevel = 1;

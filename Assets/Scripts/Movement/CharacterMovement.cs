@@ -24,6 +24,7 @@ namespace RPG.Movement {
             actionScheduler = GetComponent<ActionScheduler>();
             characterHealth = GetComponent<Health>();
         }
+        
         void Update() {
             characterNavMeshAgent.enabled = !characterHealth.IsDead;
 
