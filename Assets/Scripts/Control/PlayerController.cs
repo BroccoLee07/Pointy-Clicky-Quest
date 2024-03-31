@@ -5,6 +5,7 @@ using RPG.Stats;
 using UnityEngine.AI;
 using RPG.Attributes;
 using System;
+using UnityEngine.EventSystems;
 
 namespace RPG.Control {
     [RequireComponent(typeof(CharacterMovement))]
@@ -15,7 +16,8 @@ namespace RPG.Control {
         public enum CursorType {
             None,
             Movement,
-            Combat
+            Combat,
+            UI
         }
 
         [Serializable]
@@ -42,7 +44,13 @@ namespace RPG.Control {
         }
 
         void Update() {
-            if (health.IsDead) return;
+            if (ProcessUI()) return;
+
+            // If player is dead, cursor should seem like it cannot interact with anything but the UI
+            if (health.IsDead) {
+                SetCursor(CursorType.None);
+                return;
+            }            
             
             if (ProcessCombat()) return;
             if (ProcessMovement()) return;
@@ -89,6 +97,16 @@ namespace RPG.Control {
 
                 // Handles mouse hovers
                 SetCursor(CursorType.Movement);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool ProcessUI() {
+            // Check if mouse is over UI defined by EventSystem
+            if (EventSystem.current.IsPointerOverGameObject()) {
+                SetCursor(CursorType.UI);
                 return true;
             }
 
