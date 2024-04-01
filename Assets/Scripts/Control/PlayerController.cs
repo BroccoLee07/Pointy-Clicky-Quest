@@ -20,6 +20,7 @@ namespace RPG.Control {
         }
 
         [SerializeField] private CursorMapping[] cursorMappings;
+        [SerializeField] private float maxNavMeshProjectionDistance = 1f;
         
         private CharacterMovement characterMovement;
         private CharacterCombat characterCombat;
@@ -87,12 +88,10 @@ namespace RPG.Control {
         }
 
         private bool ProcessMovement() {
-            RaycastHit raycastHit;
-
-            // Check if Physics Raycast has a hit
-            if (Physics.Raycast(GetMouseInputRay(), out raycastHit)) {
+            Vector3 targetPos;
+            if (RaycastNavMesh(out targetPos)) {
                 if (Input.GetMouseButton(0)) {
-                    characterMovement.StartMoveAction(raycastHit.point, 1f);
+                    characterMovement.StartMoveAction(targetPos, 1f);
                 }
 
                 // Handles mouse hovers
@@ -101,6 +100,23 @@ namespace RPG.Control {
             }
 
             return false;
+        }
+
+        private bool RaycastNavMesh(out Vector3 targetPos) {
+            targetPos = Vector3.zero;
+
+            RaycastHit raycastHit;
+            bool hasHit = Physics.Raycast(GetMouseInputRay(), out raycastHit);
+
+            if (!hasHit) return false;
+
+            NavMeshHit navMeshHit;
+            bool hasCastToNavMesh = NavMesh.SamplePosition(raycastHit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            if (!hasCastToNavMesh) return false;
+
+            // Set target pos to sampled position
+            targetPos = navMeshHit.position;            
+            return true;
         }
 
         private bool ProcessUI() {
