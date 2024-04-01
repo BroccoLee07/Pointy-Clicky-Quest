@@ -12,12 +12,17 @@ namespace RPG.SceneManagement {
 
         const string defaultSaveFile = "gameSave";
 
-        IEnumerator Start() {
-            SceneFader fader = FindObjectOfType<SceneFader>();
+        void Awake() {
+            StartCoroutine(LoadLastScene());
+        }
+        
+        private IEnumerator LoadLastScene() {
             savingSystem = GetComponent<JsonSavingSystem>();
-
-            fader.FadeOutImmediate();
             yield return savingSystem.LoadLastScene(defaultSaveFile);
+
+            // Make sure Awakes have happened from yield return LoadLastScene before trying to find the object
+            SceneFader fader = FindObjectOfType<SceneFader>();            
+            fader.FadeOutImmediate();
             yield return fader.FadeIn(fadeInTime);
         }
 
@@ -31,6 +36,10 @@ namespace RPG.SceneManagement {
             if (Input.GetKeyDown(KeyCode.S)) {
                 Save();
             }
+
+            if (Input.GetKeyDown(KeyCode.Delete)) {
+                Delete();
+            }
         }
 
         public void Save() {
@@ -39,6 +48,10 @@ namespace RPG.SceneManagement {
 
         public void Load() {
             savingSystem.Load(defaultSaveFile);
+        }
+
+        public void Delete() {
+            savingSystem.Delete(defaultSaveFile);
         }
     }
 }

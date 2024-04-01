@@ -82,6 +82,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 283225719101202469, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1862814374485828933, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: uniqueIdentifier
       value: player
@@ -194,6 +198,22 @@ PrefabInstance:
       propertyPath: m_BaseOffset
       value: -0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: healUpEffect
+      value: 
+      objectReference: {fileID: 1968213162280267260, guid: 28b73c4f5da783740acd6fc2a73da9db, type: 3}
+    - target: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: levelUpEffect
+      value: 
+      objectReference: {fileID: 1968213162280267260, guid: 8979b584358497247941a863165dc34f, type: 3}
+    - target: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: characterClass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: shouldUseStatModifiers
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5332356094571059513, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
@@ -233,3 +253,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd2dd74a5d3e434dbdde3a57e1594d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7612378176487678319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507652297085623266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271d6337a4c048b49a760cf76d5af27c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experiencePoints: 0

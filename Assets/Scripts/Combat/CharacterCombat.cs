@@ -3,12 +3,16 @@ using RPG.Movement;
 using RPG.Core;
 using RPG.Saving;
 using Newtonsoft.Json.Linq;
+using RPG.Attributes;
+using RPG.Stats;
+using System.Collections.Generic;
+using GameDevTV.Utils;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
-    public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable {
+    public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable, IModifierProvider {
 
         [SerializeField] private float timeBetweenAttacks = 1f;
         // Set to null for variables related to weapons for the case where character is unarmed
@@ -20,21 +24,25 @@ namespace RPG.Combat {
         private CharacterMovement characterMovement;
         private ActionScheduler actionScheduler;
         private Animator animator;
+        private BaseStats baseStats;
         private Health targetHealth;
-        private Weapon currentWeapon;
+        private LazyValue<Weapon> currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
         private const string ANIMATOR_ATTACK_TRIGGER = "attack";
         private const string ANIMATOR_STOP_ATTACK_TRIGGER = "stopAttack";
-        void Start() {
+
+        void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
+            baseStats = GetComponent<BaseStats>();
+            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+        }
 
-            if (currentWeapon == null) {
-                EquipWeapon(defaultWeapon);
-            }
+        void Start() {
+            currentWeapon.ForceInit();
         }        
 
         void Update() {
@@ -54,13 +62,25 @@ namespace RPG.Combat {
             }
         }
 
+        private Weapon SetupDefaultWeapon() {
+            AttachWeapon(defaultWeapon);
+            return defaultWeapon;
+        }
+
         public void EquipWeapon(Weapon weapon) {
             Debug.Log($"Equipping weapon {weapon.name}");
             if (weapon == null) return;
 
-            currentWeapon = weapon;
-            Debug.Log($"Set as current weapon");
+            currentWeapon.value = weapon;
+            AttachWeapon(weapon);
+        }
+
+        private void AttachWeapon(Weapon weapon) {
             weapon.Spawn(leftHandTransform, rightHandTransform, animator);
+        }
+
+        public Health GetTargetHealth() {
+            return targetHealth;
         }
 
         private void AttackBehaviour() {
@@ -81,10 +101,13 @@ namespace RPG.Combat {
         void Hit() {
             if (targetHealth == null) return;
 
-            if (currentWeapon.HasProjectile) {
-                currentWeapon.LaunchProjectile(leftHandTransform, rightHandTransform, targetHealth);
+            float damage = baseStats.GetStat(Stat.Damage);
+            if (currentWeapon.value.HasProjectile) {
+                // Debug.Log($"Instantiate projectile");
+                currentWeapon.value.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth, damage);
             } else {
-                targetHealth?.TakeDamage(currentWeapon.Damage);
+                // Debug.Log($"Melee On Hit, take damage");
+                targetHealth?.TakeDamage(gameObject, damage);
             }
         }
 
@@ -97,7 +120,7 @@ namespace RPG.Combat {
             float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
-            if (charToTargetDistance > currentWeapon.Range) {
+            if (charToTargetDistance > currentWeapon.value.Range) {
                 return false;
             } else {
                 return true;
@@ -124,19 +147,31 @@ namespace RPG.Combat {
             GetComponent<CharacterMovement>().Cancel();
         }
 
-        private void StopAttack() {
-            animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
-            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
-        }
-
         public JToken CaptureAsJToken() {
-            return JToken.FromObject(currentWeapon.name);
+            return JToken.FromObject(currentWeapon.value.name);
         }
 
         public void RestoreFromJToken(JToken state) {
             string weaponName = state.ToObject<string>();
             Weapon weapon = Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
+        }
+
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeapon.value.Damage;
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifiers(Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeapon.value.PercentageBonusDamage;
+            }              
+        }
+
+        private void StopAttack() {
+            animator.ResetTrigger(ANIMATOR_ATTACK_TRIGGER);
+            animator.SetTrigger(ANIMATOR_STOP_ATTACK_TRIGGER);
         }
     }
 }

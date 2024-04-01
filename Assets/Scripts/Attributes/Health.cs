@@ -1,0 +1,117 @@
+using System;
+using GameDevTV.Utils;
+using Newtonsoft.Json.Linq;
+using RPG.Core;
+using RPG.Saving;
+using RPG.Stats;
+using UnityEngine;
+
+namespace RPG.Attributes {
+    [RequireComponent(typeof(ActionScheduler))]
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(BaseStats))]
+    public class Health : MonoBehaviour, IJsonSaveable {
+
+        [Tooltip("How much health is regenerated on level up")]
+        [SerializeField] private float levelUpRegenerationPercentage = 15;
+        [SerializeField] private LazyValue<float> healthPoints;
+
+        private bool isDead = false;
+        private BaseStats baseStats;
+
+        private const string ANIMATOR_DIE_TRIGGER = "die";
+
+        // Property
+        public bool IsDead { get => isDead; }
+        public float CurrentHealthPoints { get => healthPoints.value; }
+        public float MaxHealthPoints { get => baseStats.GetStat(Stat.Health); }
+
+        void Awake() {
+            baseStats = GetComponent<BaseStats>();
+            // Makes sure correct value is retrieved
+            healthPoints = new LazyValue<float>(GetInitialHealth);
+        }
+
+        private float GetInitialHealth() {
+            return baseStats.GetStat(Stat.Health);
+        }
+
+        void Start() {
+            // Value not restored from save state if any
+            // if (healthPoints < 0) {
+            //     healthPoints = baseStats.GetStat(Stat.Health);
+            // }
+
+            // If health was not initialized prior to this point, make sure it is initialized
+            healthPoints.ForceInit();
+        }
+
+        private void OnEnable() {
+            if (baseStats != null) {
+                // Subscribe to onLevelUp event of BaseStats to health regen code
+                baseStats.onLevelUp += LevelUpRegenerateHealth;
+            }
+        }
+
+        private void OnDisable() {
+            if(baseStats != null) {
+                // Subscribe to onLevelUp event of BaseStats to health regen code
+                baseStats.onLevelUp -= LevelUpRegenerateHealth;
+            }
+        }
+
+        public void TakeDamage(GameObject attackInitiator, float damage) {
+            if (IsDead) return;
+
+            Debug.Log($"{gameObject.name} took damage: {damage}");
+            // To avoid the health going below 0
+            healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
+            // Debug.Log($"Took damage! Health is now {health}");
+
+            UpdateHealthState();
+
+            if (isDead) {
+                AwardExperience(attackInitiator);
+            }
+        }
+
+        public float GetPercentage() {
+            return 100 * (healthPoints.value / baseStats.GetStat(Stat.Health));
+        }
+
+        private void LevelUpRegenerateHealth() {
+            // Heal up a percentage of new max health on level up
+            healthPoints.value += baseStats.GetStat(Stat.Health) * (levelUpRegenerationPercentage / 100);
+        }
+
+        private void UpdateHealthState() {
+            if (healthPoints.value <= 0) {
+                isDead = true;
+                Die();                
+            }
+        }
+
+        private void AwardExperience(GameObject attackInitiator) {
+            Experience exp = attackInitiator.GetComponent<Experience>();
+            if (exp == null) return;
+
+            exp.GainExperience(baseStats.GetStat(Stat.ExperienceReward));
+        }
+
+        private void Die() {
+            GetComponent<Animator>().SetTrigger(ANIMATOR_DIE_TRIGGER);
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
+        public JToken CaptureAsJToken() {
+            return JToken.FromObject(healthPoints);
+        }
+
+        public void RestoreFromJToken(JToken state) {
+            healthPoints.value = state.ToObject<float>();
+            UpdateHealthState();
+        }
+
+    }
+}
+
