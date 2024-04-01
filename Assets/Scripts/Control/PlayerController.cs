@@ -12,15 +12,6 @@ namespace RPG.Control {
     [RequireComponent(typeof(CharacterCombat))]
     [RequireComponent(typeof(Health))]
     public class PlayerController : MonoBehaviour {
-        // Mouse cursor state
-        public enum CursorType {
-            None,
-            Movement,
-            Combat,
-            UI,
-            Interactable
-        }
-
         [Serializable]
         public struct CursorMapping {
             public CursorType cursorType;
@@ -54,7 +45,6 @@ namespace RPG.Control {
             }
 
             if (ProcessInteractable()) return;
-            // if (ProcessCombat()) return;
             if (ProcessMovement()) return;
 
             SetCursor(CursorType.None);
@@ -66,7 +56,7 @@ namespace RPG.Control {
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
                 foreach (IRaycastable raycastable in raycastables) {
                     if (raycastable.HandleRaycast(this)) {
-                        SetCursor(CursorType.Interactable);
+                        SetCursor(raycastable.GetCursorType());
                         return true;
                     }
                 }

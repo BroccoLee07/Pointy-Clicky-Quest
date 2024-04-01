@@ -5,6 +5,7 @@ using RPG.Control;
 namespace RPG.Combat {
     [RequireComponent(typeof(Health))]
     public class CombatTarget : MonoBehaviour, IRaycastable {
+
         public Health GetHealth() {
             return GetComponent<Health>();
         }
@@ -21,9 +22,10 @@ namespace RPG.Combat {
             }
 
             return true;
+        }
 
-            // Handles mouse hovers
-            // SetCursor(CursorType.Combat);
+        public CursorType GetCursorType() {
+            return CursorType.Combat;
         }
     }
 }

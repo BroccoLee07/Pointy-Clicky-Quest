@@ -49,5 +49,9 @@ namespace RPG.Combat {
             // As long as the mouse is hovering and raycast can be handled, return true
             return true;
         }
+
+        public CursorType GetCursorType() {
+            return CursorType.Pickup;
+        }
     }
 }
