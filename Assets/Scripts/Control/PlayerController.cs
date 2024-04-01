@@ -17,7 +17,8 @@ namespace RPG.Control {
             None,
             Movement,
             Combat,
-            UI
+            UI,
+            Interactable
         }
 
         [Serializable]
@@ -50,33 +51,25 @@ namespace RPG.Control {
             if (health.IsDead) {
                 SetCursor(CursorType.None);
                 return;
-            }            
-            
-            if (ProcessCombat()) return;
+            }
+
+            if (ProcessInteractable()) return;
+            // if (ProcessCombat()) return;
             if (ProcessMovement()) return;
 
             SetCursor(CursorType.None);
         }
 
-        private bool ProcessCombat() {
+        private bool ProcessInteractable() {
             RaycastHit[] raycastHits = Physics.RaycastAll(GetMouseInputRay());
-
-            foreach (RaycastHit hit in raycastHits) {                
-                CombatTarget target = hit.collider.GetComponent<CombatTarget>();
-
-                if (target == null) continue;
-
-                if (!characterCombat.CanAttack(target.gameObject)) continue;
-
-                if (Input.GetMouseButton(0)) {
-                    characterCombat.Attack(target.gameObject);                    
+            foreach (RaycastHit hit in raycastHits) {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (IRaycastable raycastable in raycastables) {
+                    if (raycastable.HandleRaycast(this)) {
+                        SetCursor(CursorType.Interactable);
+                        return true;
+                    }
                 }
-
-                // Handles mouse hovers
-                SetCursor(CursorType.Combat);
-
-                // Return here since we are still handling/executing the ProcessCombat
-                return true;
             }
 
             return false;
