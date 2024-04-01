@@ -51,7 +51,7 @@ namespace RPG.Control {
         }
 
         private bool ProcessInteractable() {
-            RaycastHit[] raycastHits = Physics.RaycastAll(GetMouseInputRay());
+            RaycastHit[] raycastHits = RaycastAllSorted();
             foreach (RaycastHit hit in raycastHits) {
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
                 foreach (IRaycastable raycastable in raycastables) {
@@ -63,6 +63,23 @@ namespace RPG.Control {
             }
 
             return false;
+        }
+
+        RaycastHit[] RaycastAllSorted() {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseInputRay());
+            // Build array of hits by distance
+            float[] distances = new float[hits.Length];
+
+            for (int i = 0; i < hits.Length; i++) {
+                distances[i] = hits[i].distance;
+            }
+
+            // Sort distances of hits in ascending order
+            Array.Sort(distances);
+
+            // Sort hits by distance from screen
+            Array.Sort(distances, hits);
+            return Physics.RaycastAll(GetMouseInputRay());
         }
 
         private static Ray GetMouseInputRay() {
