@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using RPG.Control;
 using UnityEngine;
 
 namespace RPG.Combat {
     
-    public class WeaponPickup : MonoBehaviour {
+    public class WeaponPickup : MonoBehaviour, IRaycastable {
         [SerializeField] private Weapon weapon;
         [Tooltip("Main child component of weapon pickup that contains the renderer but not the WeaponPickup script")]
         [SerializeField] private GameObject pickupChild;
@@ -18,9 +19,13 @@ namespace RPG.Combat {
 
         private void OnTriggerEnter(Collider other) {
             if (other.tag == "Player") {
-                other.GetComponent<CharacterCombat>().EquipWeapon(weapon);
-                StartCoroutine(HideForSeconds(respawnTime));
+                Pickup(other.GetComponent<CharacterCombat>());
             }
+        }
+
+        private void Pickup(CharacterCombat characterCombat) {
+            characterCombat.EquipWeapon(weapon);
+            StartCoroutine(HideForSeconds(respawnTime));
         }
 
         private IEnumerator HideForSeconds(float seconds) {
@@ -34,6 +39,19 @@ namespace RPG.Combat {
 
             pickupCollider.enabled = isVisible;
             pickupChild.SetActive(isVisible);
+        }
+
+        public bool HandleRaycast(PlayerController playerController) {
+            if (Input.GetMouseButtonDown(0)) {
+                Pickup(playerController.GetComponent<CharacterCombat>());
+            }
+
+            // As long as the mouse is hovering and raycast can be handled, return true
+            return true;
+        }
+
+        public CursorType GetCursorType() {
+            return CursorType.Pickup;
         }
     }
 }
