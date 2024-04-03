@@ -10,7 +10,7 @@ namespace RPG.UI.DamageText {
 
         public void Spawn(float damageValue) {
             DamageText damageTextObject = Instantiate(damageTextPrefab, gameObject.transform);
-            damageTextObject.displayValue.text = damageValue.ToString();
+            damageTextObject.SetDisplayValue(damageValue);
         }    
     }
 }
