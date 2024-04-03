@@ -14,8 +14,11 @@ namespace RPG.UI {
         }
 
         void Update() {
-            if (foregroundTransform.localScale.x == health.GetFraction()) return;
-            // If taking damage and health bar is not yet visible, show health bar
+            // If health bar already reflects the health in fraction, do nothing
+            if (Mathf.Approximately(foregroundTransform.localScale.x, health.GetFraction())) return;
+
+            // If taking damage or loading health that is not the same as the current health bar value
+            // and health bar is not yet visible, show health bar
             if (!IsVisible()) {
                 Show(true);
             }
