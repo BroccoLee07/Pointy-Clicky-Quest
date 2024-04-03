@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8458327314222977516}
   - component: {fileID: 2887852970823097141}
   - component: {fileID: 610533335840596216}
+  - component: {fileID: 289615723205914119}
   m_Layer: 5
   m_Name: Damage Text UI
   m_TagString: Untagged
@@ -144,6 +145,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &289615723205914119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488617207203197315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9210282c2f22ff42b5b41a9f5445bf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayValue: {fileID: 1841109416351442549}
 --- !u!1 &2047742638191151129
 GameObject:
   m_ObjectHideFlags: 0
