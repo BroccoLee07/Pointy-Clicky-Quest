@@ -21,6 +21,7 @@ namespace RPG.Control {
 
         [SerializeField] private CursorMapping[] cursorMappings;
         [SerializeField] private float maxNavMeshProjectionDistance = 1f;
+        [SerializeField] private float maxNavPathLength = 40f;
         
         private CharacterMovement characterMovement;
         private CharacterCombat characterCombat;
@@ -115,8 +116,27 @@ namespace RPG.Control {
             if (!hasCastToNavMesh) return false;
 
             // Set target pos to sampled position
-            targetPos = navMeshHit.position;            
+            targetPos = navMeshHit.position;
+
+            // Calculating path so as to not allow paths that are too far for the player
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, path);
+            // If there is no path or the path is incomplete/invalid, then moving to pos is not allowed
+            if (!hasPath || (path.status != NavMeshPathStatus.PathComplete)) return false;
+            if (GetPathLength(path) > maxNavPathLength) return false;
+
             return true;
+        }
+
+        private float GetPathLength(NavMeshPath path) {
+            float total = 0;
+            if (path.corners.Length < 2) return total;
+
+            for (int i = 0; i < path.corners.Length - 1; i++) {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            
+            return total;
         }
 
         private bool ProcessUI() {
