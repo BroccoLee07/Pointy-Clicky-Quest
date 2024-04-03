@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace RPG.UI.DamageText {
         [SerializeField] private TextMeshProUGUI displayValue;
 
         public void SetDisplayValue(float damageValue) {
-            displayValue.text = damageValue.ToString();
+            displayValue.text =  String.Format("{0:0.0}",damageValue.ToString());
         }
 
         public void DestroyText() {
