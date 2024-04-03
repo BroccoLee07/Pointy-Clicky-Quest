@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 0}
   foregroundTransform: {fileID: 1268392066127179781}
+  healthBarCanvas: {fileID: 1684799323155093296}
 --- !u!1 &7200299668226444113
 GameObject:
   m_ObjectHideFlags: 0
