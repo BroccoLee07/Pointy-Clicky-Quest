@@ -8,6 +8,10 @@ namespace RPG.UI.DamageText {
         public void SetDisplayValue(float damageValue) {
             displayValue.text = damageValue.ToString();
         }
+
+        public void DestroyText() {
+            Destroy(gameObject);
+        }
     }
 }
 
