@@ -18,7 +18,7 @@ namespace RPG.Combat {
         // Set to null for variables related to weapons for the case where character is unarmed
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Transform rightHandTransform = null;
-        [SerializeField] private Weapon defaultWeapon = null;
+        [SerializeField] private WeaponConfig defaultWeapon = null;
 
         // Dependency
         private CharacterMovement characterMovement;
@@ -26,6 +26,7 @@ namespace RPG.Combat {
         private Animator animator;
         private BaseStats baseStats;
         private Health targetHealth;
+        private WeaponConfig currentWeaponConfig;
         private LazyValue<Weapon> currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
@@ -38,10 +39,13 @@ namespace RPG.Combat {
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
+            // currentWeaponConfig = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
+            currentWeaponConfig = defaultWeapon;
             currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
         }
 
         void Start() {
+            // currentWeaponConfig.ForceInit();
             currentWeapon.ForceInit();
         }        
 
@@ -63,20 +67,20 @@ namespace RPG.Combat {
         }
 
         private Weapon SetupDefaultWeapon() {
-            AttachWeapon(defaultWeapon);
-            return defaultWeapon;
+            Weapon weapon = AttachWeapon(defaultWeapon);
+            return weapon;
         }
 
-        public void EquipWeapon(Weapon weapon) {
+        public void EquipWeapon(WeaponConfig weapon) {
             Debug.Log($"Equipping weapon {weapon.name}");
             if (weapon == null) return;
 
-            currentWeapon.value = weapon;
-            AttachWeapon(weapon);
+            currentWeaponConfig = weapon;
+            currentWeapon.value = AttachWeapon(weapon);
         }
 
-        private void AttachWeapon(Weapon weapon) {
-            weapon.Spawn(leftHandTransform, rightHandTransform, animator);
+        private Weapon AttachWeapon(WeaponConfig weapon) {
+            return weapon.Spawn(leftHandTransform, rightHandTransform, animator);
         }
 
         public Health GetTargetHealth() {
@@ -102,9 +106,15 @@ namespace RPG.Combat {
             if (targetHealth == null) return;
 
             float damage = baseStats.GetStat(Stat.Damage);
-            if (currentWeapon.value.HasProjectile) {
+
+            // Make sure there is an equipped weapon
+            if (currentWeapon.value != null) {
+                currentWeapon.value.OnHit();
+            }
+
+            if (currentWeaponConfig.HasProjectile) {
                 // Debug.Log($"Instantiate projectile");
-                currentWeapon.value.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth, damage);
+                currentWeaponConfig.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth, damage);
             } else {
                 // Debug.Log($"Melee On Hit, take damage");
                 targetHealth?.TakeDamage(gameObject, damage);
@@ -120,7 +130,7 @@ namespace RPG.Combat {
             float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
-            if (charToTargetDistance > currentWeapon.value.Range) {
+            if (charToTargetDistance > currentWeaponConfig.Range) {
                 return false;
             } else {
                 return true;
@@ -148,24 +158,24 @@ namespace RPG.Combat {
         }
 
         public JToken CaptureAsJToken() {
-            return JToken.FromObject(currentWeapon.value.name);
+            return JToken.FromObject(currentWeaponConfig.name);
         }
 
         public void RestoreFromJToken(JToken state) {
             string weaponName = state.ToObject<string>();
-            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat) {
             if (stat == Stat.Damage) {
-                yield return currentWeapon.value.Damage;
+                yield return currentWeaponConfig.Damage;
             }
         }
 
         public IEnumerable<float> GetPercentageModifiers(Stat stat) {
             if (stat == Stat.Damage) {
-                yield return currentWeapon.value.PercentageBonusDamage;
+                yield return currentWeaponConfig.PercentageBonusDamage;
             }              
         }
 
