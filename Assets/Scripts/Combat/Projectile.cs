@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RPG.Attributes;
 using RPG.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Combat {
     public class Projectile : MonoBehaviour {
@@ -16,6 +17,10 @@ namespace RPG.Combat {
         [SerializeField] private float maxLifetime = 10f;
         [SerializeField] private GameObject[] destroyOnHitObjects;
         [SerializeField] private float lifetimeAfterImpact = 0.2f;
+        [Space(3)]
+
+        [Header("Events")]
+        [SerializeField] private UnityEvent onHit;
 
         private Health targetHealth;
         private GameObject attackInitiator;
@@ -64,6 +69,7 @@ namespace RPG.Combat {
             }
 
             // Debug.Log($"Projectile On Hit, take damage");
+            onHit.Invoke();
             targetHealth.TakeDamage(attackInitiator, weaponDamage);
             // Set speed to 0 to keep it from moving forward
             speed = 0;
