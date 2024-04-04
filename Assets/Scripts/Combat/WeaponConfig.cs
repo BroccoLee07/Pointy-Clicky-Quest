@@ -22,19 +22,17 @@ namespace RPG.Combat {
         public float Range { get => range; }
         public bool HasProjectile { get => projectile != null; }
 
-        public void Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
+        public Weapon Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
             Debug.Log($"Spawning weapon");
             DestroyOldWeapon(leftHandTransform, rightHandTransform);
 
+            Weapon weapon = null;
             // Check if weapon to spawn has an equipped look (unarmed and fireball has no equipment)
             if (equippedWeaponPrefab != null) {
                 Transform handTransform = GetHandTransform(leftHandTransform, rightHandTransform);
-                Weapon weapon = Instantiate(equippedWeaponPrefab, handTransform);
+                weapon = Instantiate(equippedWeaponPrefab, handTransform);
                 weapon.gameObject.name = weaponName;
             }
-
-            // Make sure characer's animator exists
-            if (animator == null) return;
             
             AnimatorOverrideController animatorOverrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             // If animatorOverride is set, update animation with appropriate weapon's animation
@@ -45,6 +43,8 @@ namespace RPG.Combat {
                 // Set current animator to the default stored in the runtimeAnimatorController
                 animator.runtimeAnimatorController = animatorOverrideController.runtimeAnimatorController;                
             }
+
+            return weapon;
         }
 
         private void DestroyOldWeapon(Transform leftHandTransform, Transform rightHandTransform) {
