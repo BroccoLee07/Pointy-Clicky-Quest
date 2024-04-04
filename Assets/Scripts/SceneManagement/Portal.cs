@@ -60,6 +60,7 @@ namespace RPG.SceneManagement {
             // Fade back in after loading everything needed in the new scene
             yield return fader.FadeIn(fadeInTime);
 
+            // TODO: Found issue where portal does not get destroyed if spam teleporting
             Destroy(gameObject);
         }
 
