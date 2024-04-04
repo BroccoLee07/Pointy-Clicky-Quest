@@ -69,7 +69,7 @@ namespace RPG.SceneManagement {
             // Have a bit of buffer for everything to initialize
             yield return new WaitForSeconds(fadeWaitTime);
             // Fade back in after loading everything needed in the new scene
-            yield return fader.FadeIn(fadeInTime);
+            fader.FadeIn(fadeInTime);
 
             // Restore player control
             portalControlRemover.EnableControl(true);
