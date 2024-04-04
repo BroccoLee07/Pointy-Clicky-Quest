@@ -2,8 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using RPG.Control;
+using RPG.Movement;
 
 namespace RPG.SceneManagement {
+    [RequireComponent(typeof(PortalControlRemover))]
     public class Portal : MonoBehaviour {
 
         private enum DestinationIdentifier {
@@ -14,12 +17,14 @@ namespace RPG.SceneManagement {
         [SerializeField] private int sceneToLoad = -1;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] DestinationIdentifier destination;
+        [SerializeField] private PortalControlRemover portalControlRemover;
 
         [Space(10)]
         [Header("Scene Fader")]
         [SerializeField] private float fadeOutTime = 0.5f;
         [SerializeField] private float fadeInTime = 1f;
         [SerializeField] private float fadeWaitTime = 0.5f;
+        
 
         private void OnTriggerEnter(Collider other) {
             if (other.gameObject.tag == "Player") {
@@ -36,6 +41,9 @@ namespace RPG.SceneManagement {
             // Keep portal in the next scene until it is finished loading completely
             DontDestroyOnLoad(gameObject);
 
+            // Remove player control for current player object
+            portalControlRemover.EnableControl(false);
+
             SceneFader fader = FindObjectOfType<SceneFader>();
             // Fade out as transition while changing scenes
             yield return fader.FadeOut(fadeOutTime);
@@ -45,6 +53,9 @@ namespace RPG.SceneManagement {
             savingWrapper.Save();
             
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
+
+            // Remove player control for new player object
+            portalControlRemover.EnableControl(false);
 
             // Load current (transitioned to) level
             savingWrapper.Load();            
@@ -60,7 +71,9 @@ namespace RPG.SceneManagement {
             // Fade back in after loading everything needed in the new scene
             yield return fader.FadeIn(fadeInTime);
 
-            // TODO: Found issue where portal does not get destroyed if spam teleporting
+            // Restore player control
+            portalControlRemover.EnableControl(true);
+
             Destroy(gameObject);
         }
 
