@@ -1,10 +1,10 @@
-using System;
 using GameDevTV.Utils;
 using Newtonsoft.Json.Linq;
 using RPG.Core;
 using RPG.Saving;
 using RPG.Stats;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Attributes {
     [RequireComponent(typeof(ActionScheduler))]
@@ -15,6 +15,7 @@ namespace RPG.Attributes {
         [Tooltip("How much health is regenerated on level up")]
         [SerializeField] private float levelUpRegenerationPercentage = 15;
         [SerializeField] private LazyValue<float> healthPoints;
+        [SerializeField] private UnityEvent<float> takeDamageEvent;
 
         private bool isDead = false;
         private BaseStats baseStats;
@@ -37,11 +38,6 @@ namespace RPG.Attributes {
         }
 
         void Start() {
-            // Value not restored from save state if any
-            // if (healthPoints < 0) {
-            //     healthPoints = baseStats.GetStat(Stat.Health);
-            // }
-
             // If health was not initialized prior to this point, make sure it is initialized
             healthPoints.ForceInit();
         }
@@ -67,6 +63,7 @@ namespace RPG.Attributes {
             // To avoid the health going below 0
             healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
             // Debug.Log($"Took damage! Health is now {health}");
+            takeDamageEvent.Invoke(damage);
 
             UpdateHealthState();
 
@@ -76,7 +73,11 @@ namespace RPG.Attributes {
         }
 
         public float GetPercentage() {
-            return 100 * (healthPoints.value / baseStats.GetStat(Stat.Health));
+            return 100 * GetFraction();
+        }
+
+        public float GetFraction() {
+            return healthPoints.value / baseStats.GetStat(Stat.Health);
         }
 
         private void LevelUpRegenerateHealth() {

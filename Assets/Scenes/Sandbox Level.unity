@@ -1752,13 +1752,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4974652436894805995, guid: f95aa7233a7c2c147beb49158b1e4428, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 6013613452782613543, guid: f95aa7233a7c2c147beb49158b1e4428, type: 3}
       propertyPath: defaultWeapon
       value: 
       objectReference: {fileID: 11400000, guid: 1e0e54999bead6d4ab95baaf349cbcfe, type: 2}
+    - target: {fileID: 6581985565353585270, guid: f95aa7233a7c2c147beb49158b1e4428, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7193121843873155240, guid: f95aa7233a7c2c147beb49158b1e4428, type: 3}
       propertyPath: uniqueIdentifier
       value: f123ac6a-1595-45b5-a44c-a699484b7c1f
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592197329810170536, guid: f95aa7233a7c2c147beb49158b1e4428, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8784035448626974152, guid: f95aa7233a7c2c147beb49158b1e4428, type: 3}
       propertyPath: m_IsKinematic
@@ -2529,13 +2541,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5131017608015948783, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 5856976182597906467, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6443355443234598514, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7057025615557053612, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: uniqueIdentifier
       value: c778154e-a692-4b1c-a478-d0ecbcb07de6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737301135877531308, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
@@ -5011,7 +5035,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299411099}
-  m_LocalRotation: {x: 0.43675894, y: -0.37775648, z: 0.20905799, w: 0.7891999}
+  m_LocalRotation: {x: 0.43675897, y: -0.3777565, z: 0.20905802, w: 0.7891999}
   m_LocalPosition: {x: 28.25, y: 21.51, z: 19.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6595,7 +6619,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691571467}
-  m_LocalRotation: {x: 0.26872945, y: -0.45421746, z: 0.14587145, w: 0.8367751}
+  m_LocalRotation: {x: 0.2687294, y: -0.4542175, z: 0.14587148, w: 0.8367751}
   m_LocalPosition: {x: 38.84, y: 14.42, z: 13.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6799,6 +6823,10 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 2.75
       objectReference: {fileID: 0}
+    - target: {fileID: 5131017608015948783, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 5856976182597906467, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: weaponDamage
       value: 10
@@ -6811,9 +6839,17 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 85414663}
+    - target: {fileID: 6443355443234598514, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7057025615557053612, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: uniqueIdentifier
       value: 92ee6e8b-5bd6-47ea-a103-9b3360f9302a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737301135877531308, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8924908437027703244, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: m_IsKinematic
@@ -8578,6 +8614,10 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 2.75
       objectReference: {fileID: 0}
+    - target: {fileID: 5131017608015948783, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 5856976182597906467, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: weaponDamage
       value: 10
@@ -8586,9 +8626,17 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 4000326035960279543}
+    - target: {fileID: 6443355443234598514, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7057025615557053612, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: uniqueIdentifier
       value: 232d8426-1fd1-467b-af84-a3491b70c212
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737301135877531308, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
@@ -8890,6 +8938,10 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 2.75
       objectReference: {fileID: 0}
+    - target: {fileID: 5131017608015948783, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00024414062
+      objectReference: {fileID: 0}
     - target: {fileID: 5856976182597906467, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: weaponDamage
       value: 10
@@ -8898,9 +8950,17 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 4000326035123123650}
+    - target: {fileID: 6443355443234598514, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7057025615557053612, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
       propertyPath: uniqueIdentifier
       value: 95e61f4f-9095-414e-9fe1-32867cd7863a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737301135877531308, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a220e73c56bc34e84984f95f098025, type: 3}
@@ -8991,7 +9051,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 113511025297162979, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -90.11255
+      value: -90.11254
       objectReference: {fileID: 0}
     - target: {fileID: 113511025297162979, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9007,7 +9067,7 @@ PrefabInstance:
       objectReference: {fileID: 113511025535550769}
     - target: {fileID: 113511025387120708, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -90.11255
+      value: -90.11254
       objectReference: {fileID: 0}
     - target: {fileID: 113511025387120708, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9101,6 +9161,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 6961161722116662969, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7545867869590354152, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: defaultWeapon
       value: 
@@ -9166,6 +9230,18 @@ PrefabInstance:
     - target: {fileID: 2483603541213445697, guid: 542e15ea4f7aa124ca22fd77a36da54d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5531390323155924263, guid: 542e15ea4f7aa124ca22fd77a36da54d, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952948119686525114, guid: 542e15ea4f7aa124ca22fd77a36da54d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00024414062
+      objectReference: {fileID: 0}
+    - target: {fileID: 9135690320344448505, guid: 542e15ea4f7aa124ca22fd77a36da54d, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 542e15ea4f7aa124ca22fd77a36da54d, type: 3}
