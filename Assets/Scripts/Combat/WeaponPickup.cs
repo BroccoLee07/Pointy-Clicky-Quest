@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RPG.Combat {
     
     public class WeaponPickup : MonoBehaviour, IRaycastable {
-        [SerializeField] private Weapon weapon;
+        [SerializeField] private WeaponConfig weapon;
         [Tooltip("Main child component of weapon pickup that contains the renderer but not the WeaponPickup script")]
         [SerializeField] private GameObject pickupChild;
         [SerializeField] private float respawnTime = 5f;        

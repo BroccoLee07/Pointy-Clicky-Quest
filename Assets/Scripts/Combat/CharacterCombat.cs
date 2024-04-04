@@ -18,7 +18,7 @@ namespace RPG.Combat {
         // Set to null for variables related to weapons for the case where character is unarmed
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Transform rightHandTransform = null;
-        [SerializeField] private Weapon defaultWeapon = null;
+        [SerializeField] private WeaponConfig defaultWeapon = null;
 
         // Dependency
         private CharacterMovement characterMovement;
@@ -26,7 +26,7 @@ namespace RPG.Combat {
         private Animator animator;
         private BaseStats baseStats;
         private Health targetHealth;
-        private LazyValue<Weapon> currentWeapon;
+        private LazyValue<WeaponConfig> currentWeapon;
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
@@ -38,7 +38,7 @@ namespace RPG.Combat {
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
-            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+            currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
         }
 
         void Start() {
@@ -62,12 +62,12 @@ namespace RPG.Combat {
             }
         }
 
-        private Weapon SetupDefaultWeapon() {
+        private WeaponConfig SetupDefaultWeapon() {
             AttachWeapon(defaultWeapon);
             return defaultWeapon;
         }
 
-        public void EquipWeapon(Weapon weapon) {
+        public void EquipWeapon(WeaponConfig weapon) {
             Debug.Log($"Equipping weapon {weapon.name}");
             if (weapon == null) return;
 
@@ -75,7 +75,7 @@ namespace RPG.Combat {
             AttachWeapon(weapon);
         }
 
-        private void AttachWeapon(Weapon weapon) {
+        private void AttachWeapon(WeaponConfig weapon) {
             weapon.Spawn(leftHandTransform, rightHandTransform, animator);
         }
 
@@ -153,7 +153,7 @@ namespace RPG.Combat {
 
         public void RestoreFromJToken(JToken state) {
             string weaponName = state.ToObject<string>();
-            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }
 
