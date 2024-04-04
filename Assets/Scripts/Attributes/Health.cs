@@ -105,10 +105,11 @@ namespace RPG.Attributes {
         }
 
         public JToken CaptureAsJToken() {
-            return JToken.FromObject(healthPoints);
+            return JToken.FromObject(healthPoints.value);
         }
 
         public void RestoreFromJToken(JToken state) {
+            Debug.Log($"Restore health of {gameObject.name}");
             healthPoints.value = state.ToObject<float>();
             UpdateHealthState();
         }
