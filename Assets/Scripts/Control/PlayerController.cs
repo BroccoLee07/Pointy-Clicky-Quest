@@ -21,7 +21,7 @@ namespace RPG.Control {
 
         [SerializeField] private CursorMapping[] cursorMappings;
         [SerializeField] private float maxNavMeshProjectionDistance = 1f;
-        [SerializeField] private float maxNavPathLength = 40f;
+        [SerializeField] private float maxNavPathLength = 30f;
         
         private CharacterMovement characterMovement;
         private CharacterCombat characterCombat;
