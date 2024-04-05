@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RPG.Attributes;
 using RPG.Control;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace RPG.Combat {
     
     public class WeaponPickup : MonoBehaviour, IRaycastable {
         [SerializeField] private WeaponConfig weapon;
+        [SerializeField] private float healthToRestore = 0;
         [Tooltip("Main child component of weapon pickup that contains the renderer but not the WeaponPickup script")]
         [SerializeField] private GameObject pickupChild;
         [SerializeField] private float respawnTime = 5f;        
@@ -19,12 +21,19 @@ namespace RPG.Combat {
 
         private void OnTriggerEnter(Collider other) {
             if (other.tag == "Player") {
-                Pickup(other.GetComponent<CharacterCombat>());
+                Pickup(other.gameObject);
             }
         }
 
-        private void Pickup(CharacterCombat characterCombat) {
-            characterCombat.EquipWeapon(weapon);
+        private void Pickup(GameObject pickup) {
+            if (weapon != null) {
+                pickup.GetComponent<CharacterCombat>().EquipWeapon(weapon);
+            }
+
+            if (healthToRestore > 0) {
+                pickup.GetComponent<Health>().Heal(healthToRestore);
+            }
+
             StartCoroutine(HideForSeconds(respawnTime));
         }
 
@@ -43,7 +52,7 @@ namespace RPG.Combat {
 
         public bool HandleRaycast(PlayerController playerController) {
             if (Input.GetMouseButtonDown(0)) {
-                Pickup(playerController.GetComponent<CharacterCombat>());
+                Pickup(playerController.gameObject);
             }
 
             // As long as the mouse is hovering and raycast can be handled, return true

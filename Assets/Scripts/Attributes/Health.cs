@@ -74,6 +74,10 @@ namespace RPG.Attributes {
             }
         }
 
+        public void Heal(float healValue) {
+            healthPoints.value = Mathf.Min(healthPoints.value + healValue, MaxHealthPoints);
+        }
+
         public float GetPercentage() {
             return 100 * GetFraction();
         }
