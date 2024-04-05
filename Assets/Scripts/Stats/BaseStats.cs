@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RPG.Stats {
     public class BaseStats : MonoBehaviour {
-        [Range(1, 99)]
+        // [Range(1, 99)]
         [SerializeField] private CharacterClass characterClass;
         [SerializeField] private Progression progression;
         [SerializeField] private GameObject levelUpEffect;
