@@ -57,7 +57,7 @@ namespace RPG.Combat {
             if (targetHealth.IsDead) return;
 
             // Handle movement towards any existing combat target
-            if (!IsInAttackRange()) {
+            if (!IsInAttackRange(targetHealth.transform)) {
                 characterMovement.MoveTo(targetHealth.transform.position, 1f);
             } else {
                 characterMovement.Cancel();
@@ -126,8 +126,8 @@ namespace RPG.Combat {
             Hit();
         }
 
-        private bool IsInAttackRange() {
-            float charToTargetDistance = Vector3.Distance(transform.position, targetHealth.transform.position);
+        private bool IsInAttackRange(Transform targetTransform) {
+            float charToTargetDistance = Vector3.Distance(transform.position, targetTransform.transform.position);
             // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
             if (charToTargetDistance > currentWeaponConfig.Range) {
@@ -140,7 +140,10 @@ namespace RPG.Combat {
         public bool CanAttack(GameObject target) {
             if (target == null) return false;
             // If there is no path or target is too far
-            if (!characterMovement.CanMoveTo(target.transform.position)) return false;
+            if (!characterMovement.CanMoveTo(target.transform.position)
+            && !IsInAttackRange(target.transform)) {
+                return false;
+            }
 
             // Debug.Log($"target dead? {target.GetHealth().IsDead}");
             Health targetHealth = target.GetComponent<Health>();
