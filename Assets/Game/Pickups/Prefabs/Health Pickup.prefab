@@ -158,6 +158,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2912121004993394875}
     - target: {fileID: 5749342661673683909, guid: ebdd0de419c11a940990bc1e2a7cbe12, type: 3}
+      propertyPath: pickupRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749342661673683909, guid: ebdd0de419c11a940990bc1e2a7cbe12, type: 3}
       propertyPath: respawnTime
       value: 45
       objectReference: {fileID: 0}
