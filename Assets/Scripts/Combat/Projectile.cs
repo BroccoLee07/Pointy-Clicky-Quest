@@ -68,7 +68,6 @@ namespace RPG.Combat {
                 return;
             }
 
-            // Debug.Log($"Projectile On Hit, take damage");
             onHit.Invoke();
             targetHealth.TakeDamage(attackInitiator, weaponDamage);
             // Set speed to 0 to keep it from moving forward

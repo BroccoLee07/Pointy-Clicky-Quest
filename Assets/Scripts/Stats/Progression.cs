@@ -43,7 +43,6 @@ namespace RPG.Stats {
             foreach (ProgressionCharacterClass progCharClass in characterClasses) {
                 Dictionary<Stat, float[]> statLookupTable = new Dictionary<Stat, float[]>();
                 foreach (ProgressionStat progressionStat in progCharClass.stats) {
-                    // Debug.Log($"Class: {progCharClass.characterClass} Stat: {progressionStat.stat}");
                     statLookupTable[progressionStat.stat] = progressionStat.levels;
                 }
                 lookupTable[progCharClass.characterClass] = statLookupTable;

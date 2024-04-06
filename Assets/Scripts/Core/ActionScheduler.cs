@@ -5,12 +5,11 @@ using UnityEngine;
 namespace RPG.Core {
     public class ActionScheduler : MonoBehaviour {
 
-        IAction currentAction;
+        private IAction currentAction;
         public void StartAction(IAction action) {
             if (currentAction == action) return;
 
             if (currentAction != null) {
-                // Debug.Log($"Cancel action: {currentAction}");
                 currentAction.Cancel();
             }
             

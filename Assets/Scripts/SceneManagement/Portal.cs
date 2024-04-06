@@ -34,7 +34,6 @@ namespace RPG.SceneManagement {
 
         private IEnumerator Transition() {
             if (sceneToLoad < 0) {
-                Debug.LogError("Scene to load not set");
                 yield break;
             }
 
