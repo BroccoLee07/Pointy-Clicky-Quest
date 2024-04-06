@@ -139,6 +139,8 @@ namespace RPG.Combat {
 
         public bool CanAttack(GameObject target) {
             if (target == null) return false;
+            // If there is no path or target is too far
+            if (!characterMovement.CanMoveTo(target.transform.position)) return false;
 
             // Debug.Log($"target dead? {target.GetHealth().IsDead}");
             Health targetHealth = target.GetComponent<Health>();
