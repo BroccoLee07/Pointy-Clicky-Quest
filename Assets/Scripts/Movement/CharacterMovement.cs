@@ -11,6 +11,7 @@ namespace RPG.Movement {
     [RequireComponent(typeof(Health))]
     public class CharacterMovement : MonoBehaviour, IAction, IJsonSaveable {
         [SerializeField] private float maxSpeed = 5.5f;
+        [SerializeField] private float maxNavPathLength = 40f;
 
         // Dependency
         private ActionScheduler actionScheduler;
@@ -36,8 +37,29 @@ namespace RPG.Movement {
         public void StartMoveAction(Vector3 destination, float speedFraction) {
             // Cancel any ongoing combat when new movement is initiated
             actionScheduler.StartAction(this);
-            // TODO: Check if dead enemy or obstacle is on destination
             MoveTo(destination, speedFraction);
+        }
+
+        public bool CanMoveTo(Vector3 targetPos) {
+            // Calculating path so as to not allow paths that are too far for the player
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, path);
+            // If there is no path or the path is incomplete/invalid, then moving to pos is not allowed
+            if (!hasPath || (path.status != NavMeshPathStatus.PathComplete)) return false;
+            if (GetPathLength(path) > maxNavPathLength) return false;
+
+            return true;
+        }
+
+        private float GetPathLength(NavMeshPath path) {
+            float total = 0;
+            if (path.corners.Length < 2) return total;
+
+            for (int i = 0; i < path.corners.Length - 1; i++) {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            
+            return total;
         }
 
         public void MoveTo(Vector3 destination, float speedFraction) {          
