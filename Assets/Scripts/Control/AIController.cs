@@ -1,3 +1,4 @@
+using System;
 using GameDevTV.Utils;
 using RPG.Attributes;
 using RPG.Combat;
@@ -15,11 +16,14 @@ namespace RPG.Control {
     public class AIController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
         [SerializeField] private float suspicionTime = 5f;
+        [SerializeField] private float aggroCooldownTime = 6.5f;
         [SerializeField] private PatrolPath patrolPath; // Can be null
         [SerializeField] private float waypointTolerance = 1f;
         [SerializeField] private float waypointDwellTime = 3f;
         [Range(0,1)]
         [SerializeField] private float patrolSpeedFraction = 0.5f;
+        [Tooltip("AI calls for reinforcements in this max distance")]
+        [SerializeField] private float shoutDistance = 5f;
         
         // Dependency
         private CharacterCombat characterCombat;
@@ -30,6 +34,7 @@ namespace RPG.Control {
 
         private LazyValue<Vector3> guardPosition;
         private float timeSinceLastDetectedPlayer = Mathf.Infinity;
+        private float timeSinceLastAggravated = Mathf.Infinity;
         private float timeSinceWaypointArrival = Mathf.Infinity;
         private int currentWaypointIndex = 0;
         
@@ -52,7 +57,7 @@ namespace RPG.Control {
             if (player == null) return;
             if (health.IsDead) return;
 
-            if (IsPlayerInDetectRange() && characterCombat.CanAttack(player)) {                
+            if (IsAggravated() && characterCombat.CanAttack(player)) {                
                 AttackBehaviour();
             } else if (timeSinceLastDetectedPlayer <= suspicionTime)  {
                 // Linger on doing nothing as if thinking or suspicious of player's action
@@ -69,9 +74,15 @@ namespace RPG.Control {
             return transform.position;
         }
 
+        public void Aggravate() {
+            timeSinceLastAggravated = 0;
+            characterCombat.Attack(player);
+        }
+
         private void UpdateTimers() {
             timeSinceLastDetectedPlayer += Time.deltaTime;
             timeSinceWaypointArrival += Time.deltaTime;
+            timeSinceLastAggravated += Time.deltaTime;
         }
 
         private void PatrolBehaviour() {
@@ -117,10 +128,25 @@ namespace RPG.Control {
         private void AttackBehaviour() {
             timeSinceLastDetectedPlayer = 0;
             characterCombat.Attack(player);
+
+            AggravateNearbyEnemies();
         }
 
-        private bool IsPlayerInDetectRange() {
-            return Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
+        private void AggravateNearbyEnemies() {
+            // Casts sphere from center and doesn't travel at a distance essentially detecting anything in range of radius
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.up, 0);
+            foreach (RaycastHit hit in hits) {
+                AIController ai = hit.collider.GetComponent<AIController>();
+                if (ai == null) continue;
+
+                ai.Aggravate();
+            }
+        }
+
+        private bool IsAggravated() {
+            bool isPlayerInDetectRange = Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
+            bool isAggravated = timeSinceLastAggravated < aggroCooldownTime;
+            return isPlayerInDetectRange || isAggravated;
         }
 
         // Called by Unity
