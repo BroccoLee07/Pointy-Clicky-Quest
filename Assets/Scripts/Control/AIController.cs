@@ -1,3 +1,4 @@
+using System;
 using GameDevTV.Utils;
 using RPG.Attributes;
 using RPG.Combat;
@@ -21,6 +22,8 @@ namespace RPG.Control {
         [SerializeField] private float waypointDwellTime = 3f;
         [Range(0,1)]
         [SerializeField] private float patrolSpeedFraction = 0.5f;
+        [Tooltip("AI calls for reinforcements in this max distance")]
+        [SerializeField] private float shoutDistance = 5f;
         
         // Dependency
         private CharacterCombat characterCombat;
@@ -125,6 +128,19 @@ namespace RPG.Control {
         private void AttackBehaviour() {
             timeSinceLastDetectedPlayer = 0;
             characterCombat.Attack(player);
+
+            AggravateNearbyEnemies();
+        }
+
+        private void AggravateNearbyEnemies() {
+            // Casts sphere from center and doesn't travel at a distance essentially detecting anything in range of radius
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.up, 0);
+            foreach (RaycastHit hit in hits) {
+                AIController ai = hit.collider.GetComponent<AIController>();
+                if (ai == null) continue;
+
+                ai.Aggravate();
+            }
         }
 
         private bool IsAggravated() {
