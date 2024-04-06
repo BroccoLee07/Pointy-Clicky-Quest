@@ -10,6 +10,7 @@ using GameDevTV.Utils;
 
 namespace RPG.Combat {
     [RequireComponent(typeof(CharacterMovement))]
+    [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(ActionScheduler))]
     [RequireComponent(typeof(Animator))]
     public class CharacterCombat : MonoBehaviour, IAction, IJsonSaveable, IModifierProvider {
@@ -26,8 +27,10 @@ namespace RPG.Combat {
         private Animator animator;
         private BaseStats baseStats;
         private Health targetHealth;
+        private Health characterHealth;
         private WeaponConfig currentWeaponConfig;
         private LazyValue<Weapon> currentWeapon;
+
 
         private float timeSinceLastAttack = Mathf.Infinity;
 
@@ -36,6 +39,7 @@ namespace RPG.Combat {
 
         void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
+            characterHealth = GetComponent<Health>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
@@ -50,11 +54,11 @@ namespace RPG.Combat {
         }        
 
         void Update() {
+            if (targetHealth == null) return;
+            if (targetHealth.IsDead || characterHealth.IsDead) return;
+
             // Will keep increasing when no attack
             timeSinceLastAttack += Time.deltaTime;
-
-            if (targetHealth == null) return;
-            if (targetHealth.IsDead) return;
 
             // Handle movement towards any existing combat target
             if (!IsInAttackRange(targetHealth.transform)) {
@@ -72,7 +76,6 @@ namespace RPG.Combat {
         }
 
         public void EquipWeapon(WeaponConfig weapon) {
-            Debug.Log($"Equipping weapon {weapon.name}");
             if (weapon == null) return;
 
             currentWeaponConfig = weapon;
@@ -113,10 +116,8 @@ namespace RPG.Combat {
             }
 
             if (currentWeaponConfig.HasProjectile) {
-                // Debug.Log($"Instantiate projectile");
                 currentWeaponConfig.LaunchProjectile(gameObject, leftHandTransform, rightHandTransform, targetHealth, damage);
             } else {
-                // Debug.Log($"Melee On Hit, take damage");
                 targetHealth?.TakeDamage(gameObject, damage);
             }
         }
@@ -128,7 +129,6 @@ namespace RPG.Combat {
 
         private bool IsInAttackRange(Transform targetTransform) {
             float charToTargetDistance = Vector3.Distance(transform.position, targetTransform.transform.position);
-            // Debug.Log($"charToTargetDistance: {charToTargetDistance}");
 
             if (charToTargetDistance > currentWeaponConfig.Range) {
                 return false;
@@ -145,13 +145,11 @@ namespace RPG.Combat {
                 return false;
             }
 
-            // Debug.Log($"target dead? {target.GetHealth().IsDead}");
             Health targetHealth = target.GetComponent<Health>();
             return targetHealth != null && !targetHealth.IsDead;
         }
 
         public void Attack(GameObject combatTarget) {
-            // Debug.Log($"Fighter is attacking!");
             actionScheduler.StartAction(this);
             targetHealth = combatTarget.GetComponent<Health>();            
         }

@@ -73,10 +73,6 @@ namespace RPG.Stats {
         }
 
         private int CalculateLevel() {
-            // TODO: Remove later. Might be unnecessary since this is already called in Awake
-            // Experience experience = GetComponent<Experience>();
-            // Debug.Log($"Character {characterClass} GetLevel experience: {experience}");
-
             int currentLevel = 1;
             if (experience == null) return currentLevel;
             

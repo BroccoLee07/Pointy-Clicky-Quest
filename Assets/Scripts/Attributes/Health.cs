@@ -60,10 +60,9 @@ namespace RPG.Attributes {
         public void TakeDamage(GameObject attackInitiator, float damage) {
             if (IsDead) return;
 
-            Debug.Log($"{gameObject.name} took damage: {damage}");
             // To avoid the health going below 0
             healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
-            // Debug.Log($"Took damage! Health is now {health}");
+
             takeDamageEvent.Invoke(damage);
 
             UpdateHealthState();
@@ -115,7 +114,6 @@ namespace RPG.Attributes {
         }
 
         public void RestoreFromJToken(JToken state) {
-            Debug.Log($"Restore health of {gameObject.name}");
             healthPoints.value = state.ToObject<float>();
             UpdateHealthState();
         }

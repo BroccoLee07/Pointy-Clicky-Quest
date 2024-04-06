@@ -27,7 +27,6 @@ namespace RPG.UI {
 
         private void UpdateHealthDisplay() {
             if (healthValue.text != String.Format("{0:0.0} / {1:0.0}", health.CurrentHealthPoints, health.MaxHealthPoints)) {
-                // Debug.Log($"health percent: {health.GetPercentage()}");
                 healthValue.text = String.Format("{0:0.0} / {1:0.0}", health.CurrentHealthPoints, health.MaxHealthPoints);                
             }
         }

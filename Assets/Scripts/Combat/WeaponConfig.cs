@@ -23,7 +23,6 @@ namespace RPG.Combat {
         public bool HasProjectile { get => projectile != null; }
 
         public Weapon Spawn(Transform leftHandTransform, Transform rightHandTransform, Animator animator) {
-            Debug.Log($"Spawning weapon");
             DestroyOldWeapon(leftHandTransform, rightHandTransform);
 
             Weapon weapon = null;
