@@ -137,7 +137,7 @@ namespace RPG.Control {
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.up, 0);
             foreach (RaycastHit hit in hits) {
                 AIController ai = hit.collider.GetComponent<AIController>();
-                if (ai == null) continue;
+                if (ai == null || ai == this) continue;
 
                 ai.Aggravate();
             }
