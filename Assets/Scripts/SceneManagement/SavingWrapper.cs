@@ -48,7 +48,7 @@ namespace RPG.SceneManagement {
             }
 
             // Check if Ctrl, Alt, and C keys are pressed simultaneously
-            if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.C)) {
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.C)) {
                 Quit();
             }
         }
