@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using RPG.Attributes;
 using RPG.Control;
+using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -11,7 +11,8 @@ namespace RPG.Combat {
         [SerializeField] private float healthToRestore = 0;
         [Tooltip("Main child component of weapon pickup that contains the renderer but not the WeaponPickup script")]
         [SerializeField] private GameObject pickupChild;
-        [SerializeField] private float respawnTime = 5f;        
+        [SerializeField] private float respawnTime = 5f;
+        [SerializeField] private float pickupRange = 5f;
 
         private Collider pickupCollider;
 
@@ -50,11 +51,26 @@ namespace RPG.Combat {
             pickupChild.SetActive(isVisible);
         }
 
-        public bool HandleRaycast(PlayerController playerController) {
-            if (Input.GetMouseButtonDown(0)) {
-                Pickup(playerController.gameObject);
-            }
+        public bool CanMoveTowardsPickup(PlayerController playerController) {
+            return playerController.GetComponent<CharacterMovement>().CanMoveTo(transform.position);
+        }
 
+        private bool IsWithinPickupRange(PlayerController playerController) {
+            float distToPickup = Vector3.Distance(playerController.transform.position, transform.position);
+            // Debug.Log($"Player's dist to pickup: {distToPickup}; pickupRange: {pickupRange}");
+            return distToPickup <= pickupRange;
+        }
+
+        public bool HandleRaycast(PlayerController playerController) {
+            if (IsWithinPickupRange(playerController) && Input.GetMouseButtonDown(0)) {
+                Pickup(playerController.gameObject);
+            } else if (!IsWithinPickupRange(playerController) 
+            && CanMoveTowardsPickup(playerController)
+            && Input.GetMouseButtonDown(0)) {
+                // Similar logic to combat, if not in range then walk towards target
+                playerController.GetComponent<CharacterMovement>().MoveTo(transform.position, 1f);
+            }
+            
             // As long as the mouse is hovering and raycast can be handled, return true
             return true;
         }

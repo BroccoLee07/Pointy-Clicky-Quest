@@ -60,13 +60,15 @@ namespace RPG.Combat {
             return target.transform.position + Vector3.up * ((targetCapsuleCollider.height / 2) + Random.Range(0, targetCapsuleCollider.height / 3));
         }
 
-        // TODO: Fix bug where this gets triggered twice (saw it with fireball)
         private void OnTriggerEnter(Collider other) {
             if (other.GetComponent<Health>() != targetHealth) return;
 
             if (targetHealth.IsDead) {
                 return;
             }
+
+            // Valid trigger enter at this point so disable collider right away to avoid multiple triggers
+            GetComponent<Collider>().enabled = false;
 
             onHit.Invoke();
             targetHealth.TakeDamage(attackInitiator, weaponDamage);
