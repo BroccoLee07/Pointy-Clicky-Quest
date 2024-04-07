@@ -263,6 +263,10 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 7.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 1500
+      objectReference: {fileID: 0}
     - target: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: characterClass
       value: 1
@@ -335,7 +339,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseDistance: 5
   suspicionTime: 5
+  aggroCooldownTime: 6.5
   patrolPath: {fileID: 0}
   waypointTolerance: 1
   waypointDwellTime: 3
   patrolSpeedFraction: 0.5
+  shoutDistance: 5
