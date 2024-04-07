@@ -834,7 +834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198201515}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -70.281876, y: 508.3047, z: 437.26044}
+  m_LocalPosition: {x: -70.281876, y: 508.3047, z: 512.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4491,6 +4491,10 @@ PrefabInstance:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 11400000, guid: b664b20b392aab34fb400115e7afdfa0, type: 2}
+    - target: {fileID: 2127839856067832562, guid: 511792d16342d434db4c8e7fb9f17433, type: 3}
+      propertyPath: pickupRange
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5483403045471984423, guid: 511792d16342d434db4c8e7fb9f17433, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -5674,6 +5678,10 @@ PrefabInstance:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 11400000, guid: b664b20b392aab34fb400115e7afdfa0, type: 2}
+    - target: {fileID: 2127839856067832562, guid: 511792d16342d434db4c8e7fb9f17433, type: 3}
+      propertyPath: pickupRange
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5483403045471984423, guid: 511792d16342d434db4c8e7fb9f17433, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -7474,7 +7482,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299411099}
-  m_LocalRotation: {x: 0.16214344, y: 0.82285476, z: -0.2890377, w: 0.4616024}
+  m_LocalRotation: {x: 0.16214344, y: 0.82285476, z: -0.28903776, w: 0.46160236}
   m_LocalPosition: {x: 18.082767, y: 3.76, z: 40.08954}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8750,7 +8758,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503512776}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -170.28188, y: 508.3047, z: 537.26044}
+  m_LocalPosition: {x: -95.1, y: 508.25, z: 537.26044}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9769,7 +9777,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691571467}
-  m_LocalRotation: {x: 0.1601415, y: 0.8135724, z: -0.26460576, w: 0.4923804}
+  m_LocalRotation: {x: 0.1601415, y: 0.81357247, z: -0.26460576, w: 0.4923804}
   m_LocalPosition: {x: 8.051643, y: 2.9, z: 39.020847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11857,6 +11865,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1041505653}
     m_Modifications:
+    - target: {fileID: 2877509294121663728, guid: e8bb5f54952b97c4d8822837cf9b201d, type: 3}
+      propertyPath: pickupRange
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3139952983778338700, guid: e8bb5f54952b97c4d8822837cf9b201d, type: 3}
       propertyPath: m_Name
       value: Bow Pickup
