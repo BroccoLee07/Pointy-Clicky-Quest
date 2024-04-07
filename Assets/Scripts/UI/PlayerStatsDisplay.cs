@@ -33,7 +33,11 @@ namespace RPG.UI {
 
         private void UpdateExperienceDisplay() {
             if (expValue.text != experience.ExperiencePoints.ToString()){
-                expValue.text = experience.ExperiencePoints.ToString();
+                // expValue.text = experience.ExperiencePoints.ToString();
+                expValue.text = String.Format("{0:0.0} / {1:0.0}", 
+                    experience.ExperiencePoints.ToString(), 
+                    baseStats.GetCurrentExperienceToNextLevel().ToString()
+                );
             }
         }
 

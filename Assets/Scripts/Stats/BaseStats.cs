@@ -64,12 +64,33 @@ namespace RPG.Stats {
             return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat) / 100);
         }
 
+        public float GetStat(Stat stat, int level) {
+            // (Base stat + equips modifier stats) * (1 + (percentage modifier / 100))
+            // percentage modifier divided by 100 to get decimal then added by to add percentage stat value to base with additive
+            return (GetBaseStat(stat, level) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat) / 100);
+        }
+
         private float GetBaseStat(Stat stat) {
             return progression.GetStat(stat, characterClass, GetCurrentLevel());
         }
 
+        private float GetBaseStat(Stat stat, int level) {
+            return progression.GetStat(stat, characterClass, level);
+        }
+
         public int GetCurrentLevel() {
             return currentLevel.value;
+        }
+
+        public float GetCurrentExperienceToNextLevel() {
+            int currentLevel = GetCurrentLevel();
+            float currentExpToNextLevel = GetBaseStat(Stat.ExperienceToNextLevel, 1);
+
+            for (int level = 2; level <= currentLevel; level++) {
+                currentExpToNextLevel += GetBaseStat(Stat.ExperienceToNextLevel, level);
+            }
+
+            return currentExpToNextLevel;
         }
 
         private int CalculateLevel() {
