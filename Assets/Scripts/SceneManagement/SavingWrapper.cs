@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using RPG.Saving;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RPG.SceneManagement {
     [RequireComponent(typeof(JsonSavingSystem))]
@@ -40,6 +41,16 @@ namespace RPG.SceneManagement {
             if (Input.GetKeyDown(KeyCode.Delete)) {
                 Delete();
             }
+
+            if (Input.GetKeyDown(KeyCode.R)) {
+                // Delete saved file and restart scene
+                Restart();
+            }
+
+            // Check if Ctrl, Alt, and C keys are pressed simultaneously
+            if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.C)) {
+                Quit();
+            }
         }
 
         public void Save() {
@@ -52,6 +63,19 @@ namespace RPG.SceneManagement {
 
         public void Delete() {
             savingSystem.Delete(defaultSaveFile);
+        }
+
+        public void Restart() {
+            Delete();
+            // Restart the current scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        public void Quit() {
+            // Save before quitting
+            Save();
+            // Quit the application
+            Application.Quit();
         }
     }
 }
