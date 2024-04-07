@@ -171,31 +171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'MOUSE:
-
-
-    Use mouse to move and interact
-
-
-
-    KEYBOARD:
-
-
-    Esc
-    = Show/Hide Controls
-
-    S = Save game
-
-    L = Load game
-
-    DEL = Delete
-    saved game
-
-    R = Restart game
-
-    LCtrl + LAlt + C = Quit Game
-
-'
+  m_text: Controls Instructions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2086,6 +2062,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainMenuObject: {fileID: 5053950556676172531}
+  controlsInstructionsText: {fileID: 2212402719000703829}
+  instructionsPC: 'MOUSE:
+
+
+    Use mouse to move and interact
+
+
+
+    KEYBOARD:
+
+
+    Esc
+    = Show/Hide Controls
+
+    S = Save game
+
+    L = Load game
+
+    DEL = Delete
+    saved game
+
+    R = Restart game
+
+    LCtrl + LAlt + C = Quit Game'
+  instructionsWeb: 'MOUSE:
+
+
+    Use mouse to move and interact
+
+
+
+    KEYBOARD:
+
+
+    Esc
+    = Show/Hide Controls
+
+    R = Restart game'
 --- !u!1 &7605565309020669460
 GameObject:
   m_ObjectHideFlags: 0

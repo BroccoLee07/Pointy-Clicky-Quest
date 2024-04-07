@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using RPG.Saving;
 using UnityEngine;
@@ -28,6 +27,7 @@ namespace RPG.SceneManagement {
         }
 
         void Update() {
+#if !UNITY_WEBGL
             // Load save state with L key
             if (Input.GetKeyDown(KeyCode.L)) {
                 Load();
@@ -41,16 +41,18 @@ namespace RPG.SceneManagement {
             if (Input.GetKeyDown(KeyCode.Delete)) {
                 Delete();
             }
+#endif
 
             if (Input.GetKeyDown(KeyCode.R)) {
                 // Delete saved file and restart scene
                 Restart();
             }
-
+#if !UNITY_WEBGL
             // Check if Ctrl, Alt, and C keys are pressed simultaneously
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.C)) {
                 Quit();
             }
+#endif
         }
 
         public void Save() {
@@ -66,7 +68,9 @@ namespace RPG.SceneManagement {
         }
 
         public void Restart() {
+#if !UNITY_WEBGL
             Delete();
+#endif
             // Restart the current scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
