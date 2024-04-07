@@ -279,6 +279,10 @@ PrefabInstance:
       propertyPath: m_BaseOffset
       value: -0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 5758418872532585922, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 1500
+      objectReference: {fileID: 0}
     - target: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: healUpEffect
       value: 
@@ -355,7 +359,7 @@ MonoBehaviour:
     texture: {fileID: 2800000, guid: f8c873f1e53e83f4aabf342d6be1dfc3, type: 3}
     hotspot: {x: 0, y: 0}
   maxNavMeshProjectionDistance: 1
-  maxNavPathLength: 40
+  raycastRadius: 1
 --- !u!114 &7612378176487678319
 MonoBehaviour:
   m_ObjectHideFlags: 0
