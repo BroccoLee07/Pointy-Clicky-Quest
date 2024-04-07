@@ -37,6 +37,8 @@ namespace RPG.Control {
         private float timeSinceLastAggravated = Mathf.Infinity;
         private float timeSinceWaypointArrival = Mathf.Infinity;
         private int currentWaypointIndex = 0;
+        public bool wasAggravatedByOtherAi = false;
+        public bool hasShoutedForHelp = false;
         
 
         void Awake() {
@@ -57,7 +59,7 @@ namespace RPG.Control {
             if (player == null) return;
             if (health.IsDead) return;
 
-            if (IsAggravated() && characterCombat.CanAttack(player)) {                
+            if (IsAggravated() && characterCombat.CanAttack(player)) {
                 AttackBehaviour();
             } else if (timeSinceLastDetectedPlayer <= suspicionTime)  {
                 // Linger on doing nothing as if thinking or suspicious of player's action
@@ -76,7 +78,6 @@ namespace RPG.Control {
 
         public void Aggravate() {
             timeSinceLastAggravated = 0;
-            characterCombat.Attack(player);
         }
 
         private void UpdateTimers() {
@@ -123,6 +124,11 @@ namespace RPG.Control {
         private void SuspicionBehaviour() {
             // Cancel any ongoing action to do nothing
             actionScheduler.CancelCurrentAction();
+
+            // In case AI was only attacking because another AI was attacked, set this back to false
+            wasAggravatedByOtherAi = false;
+            // In case other AI was called for help, set this back to false to reset
+            hasShoutedForHelp = false;
         }
 
         private void AttackBehaviour() {
@@ -133,14 +139,22 @@ namespace RPG.Control {
         }
 
         private void AggravateNearbyEnemies() {
+            // Avoid chain aggravate and infinite aggravate; Can only shout for help once per aggro
+            if (wasAggravatedByOtherAi || hasShoutedForHelp) return;
+
+            // Debug.Log($"Aggravate nearby enemies");
             // Casts sphere from center and doesn't travel at a distance essentially detecting anything in range of radius
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.up, 0);
             foreach (RaycastHit hit in hits) {
                 AIController ai = hit.collider.GetComponent<AIController>();
-                if (ai == null || ai == this) continue;
+                if (ai == null || ai == this || ai.wasAggravatedByOtherAi) continue;
 
+                // Debug.Log($"Aggravate nearby {ai.gameObject.name}");
+                ai.wasAggravatedByOtherAi = true;
                 ai.Aggravate();
             }
+
+            hasShoutedForHelp = true;
         }
 
         private bool IsAggravated() {
