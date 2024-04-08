@@ -37,13 +37,15 @@ namespace RPG.Combat {
         private const string ANIMATOR_ATTACK_TRIGGER = "attack";
         private const string ANIMATOR_STOP_ATTACK_TRIGGER = "stopAttack";
 
+        // Properties
+        public WeaponConfig CurrentWeaponConfig { get => currentWeaponConfig; }
+
         void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
             characterHealth = GetComponent<Health>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
-            // currentWeaponConfig = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
             currentWeaponConfig = defaultWeapon;
             currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
         }
@@ -78,6 +80,7 @@ namespace RPG.Combat {
         public void EquipWeapon(WeaponConfig weapon) {
             if (weapon == null) return;
 
+            Debug.Log($"Equipping new weapon: {weapon.WeaponName}");
             currentWeaponConfig = weapon;
             currentWeapon.value = AttachWeapon(weapon);
         }

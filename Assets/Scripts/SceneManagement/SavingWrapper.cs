@@ -71,8 +71,8 @@ namespace RPG.SceneManagement {
 #if !UNITY_WEBGL
             Delete();
 #endif
-            // Restart the current scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // Restart to the first map/scene
+            SceneManager.LoadScene(0);
         }
 
         public void Quit() {

@@ -1,6 +1,7 @@
 using System;
 using RPG.Attributes;
 using RPG.Stats;
+using RPG.Combat;
 using TMPro;
 using UnityEngine;
 
@@ -9,20 +10,24 @@ namespace RPG.UI {
         [SerializeField] TextMeshProUGUI healthValue;
         [SerializeField] TextMeshProUGUI levelValue;
         [SerializeField] TextMeshProUGUI expValue;
+        [SerializeField] TextMeshProUGUI equippedWeaponValue;
         private Health health;
         private Experience experience;
         private BaseStats baseStats;
+        private CharacterCombat characterCombat;
 
         void Awake() {
             health = GameObject.FindWithTag("Player").GetComponent<Health>();
             experience = GameObject.FindWithTag("Player").GetComponent<Experience>();
             baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
+            characterCombat = GameObject.FindWithTag("Player").GetComponent<CharacterCombat>();
         }
 
         void Update() {
             UpdateHealthDisplay();
             UpdateExperienceDisplay();
-            UpdateLevelDisplay();            
+            UpdateLevelDisplay();
+            UpdateEquippedWeapon();         
         }
 
         private void UpdateHealthDisplay() {
@@ -44,6 +49,14 @@ namespace RPG.UI {
         private void UpdateLevelDisplay() {
             if (Int32.Parse(levelValue.text) != baseStats.GetCurrentLevel()) {
                 levelValue.text = baseStats.GetCurrentLevel().ToString();
+            }
+        }
+
+        private void UpdateEquippedWeapon() {
+            equippedWeaponValue.text = characterCombat.CurrentWeaponConfig.WeaponName;
+
+            if (characterCombat.CurrentWeaponConfig.WeaponName == "") {
+                equippedWeaponValue.text = "Unarmed";
             }
         }
     }
