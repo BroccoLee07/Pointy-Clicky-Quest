@@ -16,6 +16,7 @@ namespace RPG.Attributes {
         [SerializeField] private float levelUpRegenerationPercentage = 15;
         [SerializeField] private LazyValue<float> healthPoints;
         [SerializeField] private UnityEvent<float> takeDamageEvent;
+        [SerializeField] private UnityEvent<bool> postDeathAction;
         [SerializeField] private UnityEvent onDeath;
 
         private bool isDead = false;
@@ -41,6 +42,9 @@ namespace RPG.Attributes {
         void Start() {
             // If health was not initialized prior to this point, make sure it is initialized
             healthPoints.ForceInit();
+            Debug.Log($"{gameObject.name} health after force init: {healthPoints.value}");
+            Revive();
+            postDeathAction.Invoke(false);
         }
 
         private void OnEnable() {
@@ -70,6 +74,7 @@ namespace RPG.Attributes {
             if (isDead) {
                 onDeath.Invoke();
                 AwardExperience(attackInitiator);
+                postDeathAction.Invoke(true);
             }
         }
 
@@ -109,13 +114,23 @@ namespace RPG.Attributes {
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
+        private void Revive() {
+            isDead = false;
+            Animator animator = GetComponent<Animator>();
+            animator.Rebind();
+            animator.Update(0f);
+        }
+
         public JToken CaptureAsJToken() {
             return JToken.FromObject(healthPoints.value);
         }
 
         public void RestoreFromJToken(JToken state) {
             healthPoints.value = state.ToObject<float>();
+            Debug.Log($"{gameObject.name} health on load: {healthPoints.value}");
             UpdateHealthState();
+            Revive();
+            postDeathAction.Invoke(false);            
         }
 
     }

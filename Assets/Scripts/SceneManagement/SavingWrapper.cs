@@ -1,4 +1,5 @@
 using System.Collections;
+using RPG.Attributes;
 using RPG.Saving;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +11,7 @@ namespace RPG.SceneManagement {
 
         [SerializeField] private float fadeInTime = 0.2f;
         public UnityEvent<string> OnSaveStateChanged = new UnityEvent<string>();
+        // public UnityEvent OnGameOverAction = new UnityEvent();
         private JsonSavingSystem savingSystem;
 
         const string defaultSaveFile = "gameSave";
@@ -63,6 +65,8 @@ namespace RPG.SceneManagement {
         }
 
         public void Load() {
+            // ProcessGameOver();
+
             savingSystem.Load(defaultSaveFile);
             OnSaveStateChanged.Invoke("Game loaded!");
         }
@@ -73,6 +77,8 @@ namespace RPG.SceneManagement {
         }
 
         public void Restart() {
+            // ProcessGameOver();
+
 #if !UNITY_WEBGL
             Delete();
 #endif
@@ -87,5 +93,13 @@ namespace RPG.SceneManagement {
             // Quit the application
             Application.Quit();
         }
+
+        // private void ProcessGameOver() {
+        //     // If player is dead, game is over and invoke action
+        //     Health playerHealth = GameObject.FindWithTag("Player").GetComponent<Health>();
+        //     if (playerHealth.IsDead) {
+        //         OnGameOverAction.Invoke();
+        //     }
+        // }
     }
 }

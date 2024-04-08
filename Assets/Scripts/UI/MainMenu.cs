@@ -1,8 +1,5 @@
-using System;
-using RPG.SceneManagement;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
     [SerializeField] private GameObject MainMenuObject;
