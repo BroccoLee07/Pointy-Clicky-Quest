@@ -18,6 +18,7 @@ namespace RPG.Attributes {
         [SerializeField] private UnityEvent<float> takeDamageEvent;
         [SerializeField] private UnityEvent<bool> postDeathAction;
         [SerializeField] private UnityEvent onDeath;
+        [SerializeField] private UnityEvent onRevive;
 
         private bool isDead = false;
         private BaseStats baseStats;
@@ -119,6 +120,8 @@ namespace RPG.Attributes {
             Animator animator = GetComponent<Animator>();
             animator.Rebind();
             animator.Update(0f);
+
+            onRevive.Invoke();
         }
 
         public JToken CaptureAsJToken() {
