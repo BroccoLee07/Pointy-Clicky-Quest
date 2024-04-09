@@ -212,12 +212,28 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: RPG.Stats.BaseStats, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -318,6 +334,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5332356094571059513, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+--- !u!114 &2965832382864742033 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6228316158869127666, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+  m_PrefabInstance: {fileID: 9171488671029303139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507652297085623266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc6418885e20b49b10eb8ce05f763c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3507652297085623198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5758418872468737277, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
@@ -385,3 +412,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   experiencePoints: 0
+  onExperienceReset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2965832382864742033}
+        m_TargetAssemblyTypeName: RPG.Stats.BaseStats, Assembly-CSharp
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
