@@ -157,10 +157,19 @@ namespace RPG.Control {
             hasShoutedForHelp = true;
         }
 
-        private bool IsAggravated() {
+        private bool IsAggravated() {            
             bool isPlayerInDetectRange = Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
             bool isAggravated = timeSinceLastAggravated < aggroCooldownTime;
             return isPlayerInDetectRange || isAggravated;
+        }
+
+
+        public void Reset() {
+            timeSinceLastAggravated = Mathf.Infinity;
+            timeSinceLastDetectedPlayer = Mathf.Infinity;
+
+            wasAggravatedByOtherAi = false;
+            hasShoutedForHelp = false;
         }
 
         // Called by Unity

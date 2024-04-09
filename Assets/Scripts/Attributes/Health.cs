@@ -142,6 +142,9 @@ namespace RPG.Attributes {
             isDead = false;
             canBeRevived = false;
 
+            // Make sure to cancel any occurring action before reset
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+
             // Reset animator to look alive again
             Animator animator = GetComponent<Animator>();
             animator.Rebind();
@@ -163,7 +166,6 @@ namespace RPG.Attributes {
             UpdateHealthState();
             Reset();
         }
-
     }
 }
 
