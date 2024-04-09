@@ -65,8 +65,6 @@ namespace RPG.SceneManagement {
         }
 
         public void Load() {
-            // ProcessGameOver();
-
             savingSystem.Load(defaultSaveFile);
             OnSaveStateChanged.Invoke("Game loaded!");
         }
@@ -77,8 +75,6 @@ namespace RPG.SceneManagement {
         }
 
         public void Restart() {
-            // ProcessGameOver();
-
 #if !UNITY_WEBGL
             Delete();
 #endif
@@ -93,13 +89,5 @@ namespace RPG.SceneManagement {
             // Quit the application
             Application.Quit();
         }
-
-        // private void ProcessGameOver() {
-        //     // If player is dead, game is over and invoke action
-        //     Health playerHealth = GameObject.FindWithTag("Player").GetComponent<Health>();
-        //     if (playerHealth.IsDead) {
-        //         OnGameOverAction.Invoke();
-        //     }
-        // }
     }
 }
