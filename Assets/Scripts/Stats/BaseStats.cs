@@ -142,5 +142,9 @@ namespace RPG.Stats {
 
             return totalPercentageModifier;
         }
+
+        public void Reset() {
+            currentLevel.value = CalculateLevel();
+        }
     }
 }
