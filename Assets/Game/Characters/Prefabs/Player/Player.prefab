@@ -201,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 438356977832249043}
     - target: {fileID: 4505624304719077300, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5332356094571059513, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: uniqueIdentifier
@@ -210,6 +210,18 @@ PrefabInstance:
     - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: healthPoints
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369522178167427307, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5758418872468737153, guid: 86d0c078ca350894ebdb37df178b66b1, type: 3}
       propertyPath: m_Name

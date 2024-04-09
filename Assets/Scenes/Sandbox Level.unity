@@ -7591,7 +7591,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299411099}
-  m_LocalRotation: {x: 0.16214344, y: 0.82285476, z: -0.28903776, w: 0.46160236}
+  m_LocalRotation: {x: 0.16214345, y: 0.82285476, z: -0.28903773, w: 0.4616024}
   m_LocalPosition: {x: 18.082767, y: 3.76, z: 40.08954}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8571,7 +8571,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1463180824}
-  m_LocalRotation: {x: -0.08534669, y: 0.9135488, z: -0.3037082, w: -0.25672132}
+  m_LocalRotation: {x: -0.0853467, y: 0.9135488, z: -0.30370823, w: -0.25672132}
   m_LocalPosition: {x: -18.098076, y: 8.548, z: 20.990887}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8796,6 +8796,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 422068, guid: 9ad607532c614c54ebd43e913aaf8857, type: 3}
   m_PrefabInstance: {fileID: 1497421928}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499069380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2427615809268064864, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+  m_PrefabInstance: {fileID: 113511025535550768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 050477540f950cb44a653fe710b53fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1503512776
 GameObject:
   m_ObjectHideFlags: 0
@@ -9886,7 +9897,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691571467}
-  m_LocalRotation: {x: 0.1601415, y: 0.81357247, z: -0.2646058, w: 0.49238038}
+  m_LocalRotation: {x: 0.16014145, y: 0.81357247, z: -0.26460582, w: 0.49238035}
   m_LocalPosition: {x: 8.051643, y: 2.9, z: 39.020847}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11803,7 +11814,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962318221}
-  m_LocalRotation: {x: 0.116731174, y: 0.82508713, z: -0.18486647, w: 0.52098894}
+  m_LocalRotation: {x: 0.11673115, y: 0.82508713, z: -0.18486646, w: 0.520989}
   m_LocalPosition: {x: 18, y: 4.82, z: 38.88206}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13332,6 +13343,62 @@ PrefabInstance:
     - target: {fileID: 113511026459132721, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1499069380}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Show
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1499069380}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameOverDisplay, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Show
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameOverDisplay, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 811111145782424009, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
+      propertyPath: playerPostDeathAction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1022310271312276704, guid: 6ed686c6f19f7c04b8dd4fc863d48d81, type: 3}
       propertyPath: m_BaseOffset

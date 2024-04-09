@@ -45,12 +45,7 @@ namespace RPG.Attributes {
         void Start() {
             // If health was not initialized prior to this point, make sure it is initialized
             healthPoints.ForceInit();            
-            Reset();
-
-            // Only play if player is dead
-            if (gameObject.tag == "Player") {
-                playerPostDeathAction.Invoke(false);
-            }            
+            Reset();           
         }
 
         private void OnEnable() {
@@ -78,7 +73,6 @@ namespace RPG.Attributes {
             UpdateHealthState();
 
             if (isDead) {
-                Debug.Log($"{gameObject.name} has died!");
                 onDeath.Invoke();
                 AwardExperience(attackInitiator);
 
@@ -109,9 +103,16 @@ namespace RPG.Attributes {
 
         private void UpdateHealthState() {
             if (healthPoints.value <= 0) {
-                Debug.Log($"Updated health state of dead {gameObject.name}");
                 isDead = true;
                 Die();
+
+                if (gameObject.tag == "Player") {
+                    playerPostDeathAction.Invoke(true);
+                }
+            } else {
+                if (gameObject.tag == "Player") {
+                    playerPostDeathAction.Invoke(false);
+                }
             }
         }
 
