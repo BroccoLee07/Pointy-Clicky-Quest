@@ -2,6 +2,7 @@ using System.Collections;
 using RPG.Attributes;
 using RPG.Control;
 using RPG.Movement;
+using RPG.Stats;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -26,13 +27,14 @@ namespace RPG.Combat {
             }
         }
 
-        private void Pickup(GameObject pickup) {
+        private void Pickup(GameObject character) {
             if (weapon != null) {
-                pickup.GetComponent<CharacterCombat>().EquipWeapon(weapon);
+                character.GetComponent<CharacterCombat>().EquipWeapon(weapon);
             }
 
             if (healthToRestore > 0) {
-                pickup.GetComponent<Health>().Heal(healthToRestore);
+                character.GetComponent<Health>().Heal(healthToRestore);
+                character.GetComponent<BaseStats>().PlayHealEffect();
             }
 
             StartCoroutine(HideForSeconds(respawnTime));
