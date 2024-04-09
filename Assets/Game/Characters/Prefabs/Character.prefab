@@ -464,7 +464,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  postDeathAction:
+  playerPostDeathAction:
     m_PersistentCalls:
       m_Calls: []
   onDeath:
@@ -473,6 +473,21 @@ MonoBehaviour:
       - m_Target: {fileID: 246340922852480608}
         m_TargetAssemblyTypeName: RPG.Audio.AudioRandomizer, Assembly-CSharp
         m_MethodName: PlayRandom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onReset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2989744103560813002}
+        m_TargetAssemblyTypeName: RPG.Combat.CharacterCombat, Assembly-CSharp
+        m_MethodName: Reset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

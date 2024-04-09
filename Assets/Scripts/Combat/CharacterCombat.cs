@@ -162,6 +162,18 @@ namespace RPG.Combat {
             GetComponent<CharacterMovement>().Cancel();
         }
 
+        private void ClearFiredProjectiles() {
+            Projectile[] projectiles = FindObjectsOfType<Projectile>();
+            foreach (Projectile projectile in projectiles) {
+                Destroy(projectile.gameObject);
+            }
+        }
+
+        public void Reset() {
+            Cancel();
+            ClearFiredProjectiles();
+        }
+
         public JToken CaptureAsJToken() {
             return JToken.FromObject(currentWeaponConfig.name);
         }
