@@ -80,7 +80,6 @@ namespace RPG.Combat {
         public void EquipWeapon(WeaponConfig weapon) {
             if (weapon == null) return;
 
-            Debug.Log($"Equipping new weapon: {weapon.WeaponName}");
             currentWeaponConfig = weapon;
             currentWeapon.value = AttachWeapon(weapon);
         }
@@ -171,6 +170,7 @@ namespace RPG.Combat {
             string weaponName = state.ToObject<string>();
             WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
+            Cancel();
         }
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat) {
