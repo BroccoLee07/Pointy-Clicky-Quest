@@ -1,6 +1,8 @@
 using System.Collections;
+using RPG.Attributes;
 using RPG.Saving;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace RPG.SceneManagement {
@@ -8,6 +10,8 @@ namespace RPG.SceneManagement {
     public class SavingWrapper : MonoBehaviour {
 
         [SerializeField] private float fadeInTime = 0.2f;
+        public UnityEvent<string> OnSaveStateChanged = new UnityEvent<string>();
+        // public UnityEvent OnGameOverAction = new UnityEvent();
         private JsonSavingSystem savingSystem;
 
         const string defaultSaveFile = "gameSave";
@@ -57,22 +61,26 @@ namespace RPG.SceneManagement {
 
         public void Save() {
             savingSystem.Save(defaultSaveFile);
+            OnSaveStateChanged.Invoke("Game saved!");
         }
 
         public void Load() {
             savingSystem.Load(defaultSaveFile);
+            OnSaveStateChanged.Invoke("Game loaded!");
         }
 
         public void Delete() {
             savingSystem.Delete(defaultSaveFile);
+            OnSaveStateChanged.Invoke("Save deleted!");
         }
 
         public void Restart() {
 #if !UNITY_WEBGL
             Delete();
 #endif
-            // Restart the current scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // Restart to the first map/scene
+            SceneManager.LoadScene(0);
+            OnSaveStateChanged.Invoke("Game restarted!");
         }
 
         public void Quit() {

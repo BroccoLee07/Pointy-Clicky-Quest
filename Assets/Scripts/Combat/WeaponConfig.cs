@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace RPG.Combat {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
-    public class WeaponConfig : ScriptableObject {        
+    public class WeaponConfig : ScriptableObject {
+        [SerializeField] private string weaponName;
         [SerializeField] private float damage = 5f;
         [SerializeField] private float percentageBonusDamage = 0f;
         [SerializeField] private float range = 2f;
@@ -14,9 +15,10 @@ namespace RPG.Combat {
         // Can be null if weapon doesn't use Projectiles
         [SerializeField] private Projectile projectile = null;
 
-        public const string weaponName = "Weapon";
+        public const string weaponObjectName = "Weapon";
 
         // Properties
+        public string WeaponName { get => weaponName; }
         public float Damage { get => damage; }
         public float PercentageBonusDamage { get => percentageBonusDamage; }
         public float Range { get => range; }
@@ -30,7 +32,7 @@ namespace RPG.Combat {
             if (equippedWeaponPrefab != null) {
                 Transform handTransform = GetHandTransform(leftHandTransform, rightHandTransform);
                 weapon = Instantiate(equippedWeaponPrefab, handTransform);
-                weapon.gameObject.name = weaponName;
+                weapon.gameObject.name = weaponObjectName;
             }
             
             AnimatorOverrideController animatorOverrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
@@ -47,9 +49,9 @@ namespace RPG.Combat {
         }
 
         private void DestroyOldWeapon(Transform leftHandTransform, Transform rightHandTransform) {
-            Transform oldWeapon = rightHandTransform.Find(weaponName);
+            Transform oldWeapon = rightHandTransform.Find(weaponObjectName);
             if (oldWeapon == null) {
-                oldWeapon = leftHandTransform.Find(weaponName);
+                oldWeapon = leftHandTransform.Find(weaponObjectName);
                 // No weapon found so nothing to destroy
                 if (oldWeapon == null) return;
             }

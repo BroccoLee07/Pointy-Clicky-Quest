@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b9db1307dec424b81b4873c57ec815, type: 3}
   m_Name: Bow Red Projectile
   m_EditorClassIdentifier: 
+  weaponName: Bow
   damage: 4
   percentageBonusDamage: 0
   range: 9

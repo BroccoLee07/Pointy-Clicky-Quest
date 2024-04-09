@@ -24,14 +24,12 @@ namespace RPG.Control {
         [SerializeField] private float raycastRadius = 1f;
         
         private CharacterMovement characterMovement;
-        private CharacterCombat characterCombat;
         private Health health;
 
         // Initialize dependencies here
         // Note: Might be good to use Zenject or some dependency injection framework to handle these
         void Awake() {
             characterMovement = gameObject.GetComponent<CharacterMovement>();
-            characterCombat = gameObject.GetComponent<CharacterCombat>();
             health = GetComponent<Health>();
             
             GetComponent<NavMeshAgent>().enabled = true;

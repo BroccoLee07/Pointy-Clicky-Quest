@@ -16,10 +16,14 @@ namespace RPG.Attributes {
         [SerializeField] private float levelUpRegenerationPercentage = 15;
         [SerializeField] private LazyValue<float> healthPoints;
         [SerializeField] private UnityEvent<float> takeDamageEvent;
+        [Tooltip("Meant for the player only to show any UI or options after dying")]
+        [SerializeField] private UnityEvent<bool> playerPostDeathAction;
         [SerializeField] private UnityEvent onDeath;
+        [SerializeField] private UnityEvent onReset;
 
         private bool isDead = false;
         private BaseStats baseStats;
+        private bool canBeRevived = false;
 
         private const string ANIMATOR_DIE_TRIGGER = "die";
 
@@ -40,7 +44,8 @@ namespace RPG.Attributes {
 
         void Start() {
             // If health was not initialized prior to this point, make sure it is initialized
-            healthPoints.ForceInit();
+            healthPoints.ForceInit();            
+            Reset();           
         }
 
         private void OnEnable() {
@@ -70,6 +75,12 @@ namespace RPG.Attributes {
             if (isDead) {
                 onDeath.Invoke();
                 AwardExperience(attackInitiator);
+
+                if (gameObject.tag == "Player") {
+                    playerPostDeathAction.Invoke(true);
+                }
+                 
+                canBeRevived = true;
             }
         }
 
@@ -93,7 +104,15 @@ namespace RPG.Attributes {
         private void UpdateHealthState() {
             if (healthPoints.value <= 0) {
                 isDead = true;
-                Die();                
+                Die();
+
+                if (gameObject.tag == "Player") {
+                    playerPostDeathAction.Invoke(true);
+                }
+            } else {
+                if (gameObject.tag == "Player") {
+                    playerPostDeathAction.Invoke(false);
+                }
             }
         }
 
@@ -109,13 +128,40 @@ namespace RPG.Attributes {
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
+        private void Reset() {
+            // If not dead, just run reset event
+            if (!isDead) {
+                onReset.Invoke();
+                return;
+            }
+
+            // If not allowed to revive, end here
+            if (!canBeRevived) return;
+
+            // At this point, should be dead and revivable
+            isDead = false;
+            canBeRevived = false;
+
+            // Reset animator to look alive again
+            Animator animator = GetComponent<Animator>();
+            animator.Rebind();
+            animator.Update(0f);
+
+            onReset.Invoke();
+        }
+
         public JToken CaptureAsJToken() {
+            if (isDead) {
+                canBeRevived = false;
+            }
             return JToken.FromObject(healthPoints.value);
         }
 
         public void RestoreFromJToken(JToken state) {
             healthPoints.value = state.ToObject<float>();
+            Debug.Log($"{gameObject.name} health on load: {healthPoints.value}");
             UpdateHealthState();
+            Reset();
         }
 
     }
