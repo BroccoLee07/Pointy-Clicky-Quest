@@ -58,6 +58,10 @@ namespace RPG.Stats {
             Instantiate(healUpEffect, transform);
         }
 
+        public void PlayHealEffect() {
+            Instantiate(healUpEffect, transform);
+        }
+
         public float GetStat(Stat stat) {
             // (Base stat + equips modifier stats) * (1 + (percentage modifier / 100))
             // percentage modifier divided by 100 to get decimal then added by to add percentage stat value to base with additive
